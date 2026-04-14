@@ -1,13 +1,45 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import Alerts from "./alerts";
 import ExpandingSection from "../../components/expanding-section/ExpandingSection";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { getHomeData, getUserBasedOptions } from "./api";
+import { formatDate, setDate } from "../../utils/util-functions";
 
 export default function Home() {
   const navigate = useNavigate();
+  const { mutate: getHomeDashboardData, isLoading, error } = useMutation({
+    mutationFn: getHomeData,
+    onSuccess: (data) => {
+      console.log("Data fetched successfully:", data);
+    },
+    onError: (error) => {
+      console.error("Error fetching data:", error);
+    },
+  });
 
+  useEffect(() => {
+    /* const payload = {
+      EFF_FROM_DATE: "2026-02-17",
+      EFF_TO_DATE: "2026-04-14",
+      FACILITY_ID: "STH001",
+      ORG_ID: "DEF",
+      WorkCenterList: [{ WORK_CENTER_ID: "S7" }],
+      alert_preference_list: "4,2,6,5"
+    }; */
+
+    const userOptions = getUserBasedOptions();
+    console.log("User-based options:", userOptions);
+    const payload = {
+      ...userOptions,
+      EFF_FROM_DATE: formatDate(setDate(new Date(), -56)),
+      EFF_TO_DATE: formatDate(new Date())
+    };
+    console.log("Final payload:", payload);
+    getHomeDashboardData(payload);
+  }, []);
   const handleUserClick = () => {
     navigate("/profile"); // Change "/profile" to your desired route
   };

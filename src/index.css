@@ -27,3 +27,12 @@
 /* PrimeReact core + icons */
 @import "primereact/resources/primereact.min.css" layer(primereact);
 @import "primeicons/primeicons.css" layer(primereact);
+
+
+#lookup_panel .p-overlaypanel-close {
+       background: #3b82f6;
+  position: absolute !important;
+  top: -1rem !important;
+  right: -1rem !important;
+  z-index: 10 !important;
+}

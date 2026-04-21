@@ -7,6 +7,7 @@ const userToken = {
     "token_type": "bearer",
     "expires_in": 1799,
     "user_name": "257604",
+    "name": "Austin",
     "roles": [
         "PFEP SPECIALIST",
         "PFEP MANAGEMENT SEGMENT",

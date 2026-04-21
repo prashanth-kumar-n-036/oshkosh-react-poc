@@ -13,7 +13,7 @@ export const sampleHomeDataPayload = {
         "4,2,6,5"
 };
 
-export type HomeDataPayload = typeof sampleHomeDataPayload;
+export type HomeDataPayload = typeof sampleHomeDataPayload & {Name? : string};
 
 export const homeDashbaordData = {
     "Segment": [

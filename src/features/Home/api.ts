@@ -11,6 +11,7 @@ export const getUserBasedOptions = (): Promise<HomeDataPayload> => {
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve({
+                Name: currentUser.name,
                 EFF_FROM_DATE: "2026-02-17",
                 EFF_TO_DATE: "2026-04-14",
                 ORG_ID: currentUser ? currentUser.org_id : "",

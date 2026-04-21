@@ -36,3 +36,23 @@
   right: -1rem !important;
   z-index: 10 !important;
 }
+
+.p-datatable-emptymessage td {
+  text-align: center !important;
+}
+
+.gradient-border-top {
+  position: relative;
+  border-bottom: none !important;
+}
+
+.gradient-border-top::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(to right, #fed7aa, #bfdbfe);
+  border-radius: 9999px 9999px 0 0;
+}

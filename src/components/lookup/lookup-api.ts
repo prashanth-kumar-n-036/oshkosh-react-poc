@@ -132,7 +132,6 @@ export const getFilters = async (serviceUrl: string): Promise<typeof sampleFilte
 
 export const getLookupValues = async (serviceUrl: string, filter: string, value: string): Promise<typeof sampleLookupValues> => {
     // This function would call the API to get the lookup values based on the filter and value
-    console.log("Getting lookup values for filter:", filter, "with value:", value, "from service URL:", serviceUrl);
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve(sampleLookupValues);

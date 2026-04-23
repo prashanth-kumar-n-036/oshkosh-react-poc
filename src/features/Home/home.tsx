@@ -16,10 +16,6 @@ export function HomeComponent() {
   const [search, setSearch] = useState<SearchState>({ORG_ID: "", FACILITY_ID: "", WORK_CENTER: []});
   const { isDataFetched, isError } = useFetchHomeLoadData();
 
-  console.log("Data from context:", data);
-  console.log("Is data fetched:", isDataFetched);
-  console.log("Is there an error:", isError);
-
   const handleUserClick = () => {
     navigate("/profile");
   };

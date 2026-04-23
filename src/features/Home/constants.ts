@@ -22,3 +22,5 @@ export const workCenterWildCardConfig = {
         FACILITY_ID: ""
     }
 }
+
+export const barColors = ['#4f8fd9', '#ffdd57', '#ff9f58', '#ff6f61']; // Brighter elegant blue, sunny yellow, coral orange, vivid red

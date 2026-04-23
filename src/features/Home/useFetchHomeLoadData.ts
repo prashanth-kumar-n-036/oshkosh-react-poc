@@ -23,7 +23,6 @@ export default function useFetchHomeLoadData() {
     useEffect(() => {
         if (userData) {
             setUserBasedOptions(userData);
-            console.log("User-based options:", userData);
             const payload = {
                 ...userData,
                 EFF_FROM_DATE: formatDate(setDate(new Date(), -56)),
@@ -42,7 +41,6 @@ export default function useFetchHomeLoadData() {
         if(!isHomeDashboardDataLoading && !!homeDashboardData) {
             setHomeDashboardData(homeDashboardData);
             setDropDownData({Segment: homeDashboardData.Segment, Warehouse: homeDashboardData.Warehouse});
-            console.log("Home dashboard data:", homeDashboardData);
         }
     }, [isHomeDashboardDataLoading, homeDashboardData]);
 

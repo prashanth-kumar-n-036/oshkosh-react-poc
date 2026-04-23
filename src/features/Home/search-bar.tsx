@@ -35,7 +35,6 @@ export const SearchBar = ({ data, search, setSearch }: { data: HomeDashboardData
         lookupRef.current?.hide();
         setLookupOpen(false);
     }
-    console.log("Search state in SearchBar:", search);
     return (
         <div className="px-16 py-8 w-5/6 ">
             <div className="bg-white border border-gray-200 rounded-3xl p-6 flex items-center gap-4 shadow-sm border-t-amber-600 border-t-2">

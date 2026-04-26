@@ -1,12 +1,13 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
-import Alerts from "./alerts";
+import Alerts, {CustomLegend} from "./alerts";
 import ExpandingSection from "../../components/expanding-section/ExpandingSection";
 import HomeContext from "./homeContext";
 import useFetchHomeLoadData from "./useFetchHomeLoadData";
 import { HomeContextProvider } from "./homeContext";
 import { SearchBar } from "./search-bar";
 import type { SearchState } from "./search-bar";
+import { legendData } from "./constants";
 
 
 
@@ -49,6 +50,7 @@ export function HomeComponent() {
         <div className="mb-4">
           <ExpandingSection
             title="Alerts"
+            headerChildren={<CustomLegend payload={legendData} />}
             expandableContent={<div>Additional alert details can go here.</div>}
           >
             <Alerts />
@@ -58,6 +60,7 @@ export function HomeComponent() {
     </div>
   );
 }
+
 
 
 export default function Home() {

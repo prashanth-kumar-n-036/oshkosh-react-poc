@@ -5,12 +5,14 @@ interface ExpandingSectionProps {
   title?: string;
   children: React.ReactNode;
   expandableContent: React.ReactNode;
+  headerChildren?: React.ReactNode;
 }
 
 export default function ExpandingSection({
   title = "Expanding Section",
   children,
   expandableContent,
+  headerChildren
 }: ExpandingSectionProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -22,6 +24,7 @@ export default function ExpandingSection({
     <div className="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm ">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
+        {headerChildren && <div className="text-gray-500">{headerChildren}</div>}
         <Button
           icon={isExpanded ? "pi pi-chevron-up" : "pi pi-chevron-down"}
           rounded

@@ -24,3 +24,9 @@ export const workCenterWildCardConfig = {
 }
 
 export const barColors = ['#4f8fd9', '#ffdd57', '#ff9f58', '#ff6f61']; // Brighter elegant blue, sunny yellow, coral orange, vivid red
+export const legendData = [
+    {dataKey: '>4 Weeks', value: '>4 Weeks', color: '#4f8fd9'},
+    {dataKey: '2-4 Weeks', value: '2-4 Weeks', color: '#ffdd57'},
+    {dataKey: '<2 Weeks', value: '<2 Weeks', color: '#ff9f58'},
+    {dataKey: 'BP New', value: 'BP New', color: '#ff6f61'}
+]

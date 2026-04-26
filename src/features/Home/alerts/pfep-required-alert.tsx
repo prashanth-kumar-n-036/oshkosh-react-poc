@@ -28,7 +28,7 @@ export default function PfepRequiredAlert() {
 
 
     return (
-        <div style={{ width: '100%', minWidth: "20vw", height: 400, background: '#f9fafb', borderRadius: '12px' }}>
+        <div className='w-full min-w-[20vw] h-[320px] bg-slate-50 rounded-xl'>
             <ResponsiveContainer>
                 <BarChart data={transformedData} margin={{ top: 30, right: 30, left: 20, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee" />
@@ -38,7 +38,7 @@ export default function PfepRequiredAlert() {
                         cursor={{ fill: 'transparent' }}
                         contentStyle={{ borderRadius: '10px', border: 'none', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', fontSize: 12 }}
                     />
-                    <Legend iconType="circle" />
+                   
 
                     <BarStack radius={3}>
                         {stackKeys.map((key, index) => (

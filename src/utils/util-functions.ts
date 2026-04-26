@@ -22,7 +22,8 @@ export const formatDate = (date: string | Date | null | undefined) => {
 
 
   export const formatDateWithOmission = (date: string | Date | null | undefined, omit: string[]) => {
-    if (date !== null && date !== undefined && date !== '') {
+    //check if date is a valid data object, if not return the date as is (handles empty string, null, undefined, and invalid date formats)
+    if (date !== null && date !== undefined && date !== '' && !isNaN(new Date(date).getTime())) {
       let d = new Date(date),
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
@@ -41,6 +42,6 @@ export const formatDate = (date: string | Date | null | undefined) => {
 
       return dateString?.slice(0, -1).replace(/-00/g, '');
     } else {
-      return '';
+      return date || '';
     }
   }

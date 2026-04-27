@@ -48,13 +48,7 @@ export function HomeComponent() {
       <div className="px-8 py-4 w-full">
         {/* Alerts Section */}
         <div className="mb-4">
-          <ExpandingSection
-            title="Alerts"
-            headerChildren={<CustomLegend payload={legendData} />}
-            expandableContent={<div>Additional alert details can go here.</div>}
-          >
             <Alerts />
-          </ExpandingSection>
         </div>
       </div>
     </div>

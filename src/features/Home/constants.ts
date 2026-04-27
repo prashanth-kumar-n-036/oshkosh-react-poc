@@ -30,3 +30,5 @@ export const legendData = [
     {dataKey: '<2 Weeks', value: '<2 Weeks', color: '#ff9f58'},
     {dataKey: 'BP New', value: 'BP New', color: '#ff6f61'}
 ]
+
+export const typesOfAlerts = ["pfepShortage", "pfepRequired", "moqCeiling", "erp", "demandGaps", "duplicateWorkcenter"] as const;

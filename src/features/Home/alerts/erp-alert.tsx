@@ -5,12 +5,12 @@ import {
 } from 'recharts';
 import { homeDashbaordData } from '../sample-data';
 import { formatDateWithOmission } from '../../../utils/util-functions';
-import { barColors as colors } from '../constants';
+import { barColors as colors, typesOfAlerts } from '../constants';
 
-export default function ERPAlert() {
+export default function ERPAlert({onClick}: {onClick: (value: typeof typesOfAlerts[number]) => void}) {
     const data = homeDashbaordData.ERPAlertGraphs;
     const handleBarClick = (data: BarRectangleItem, index: number) => {
-        alert(`You clicked ${data.name}!`);
+        onClick("erp");
     };
 
 

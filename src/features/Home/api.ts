@@ -1,6 +1,14 @@
 import axios from "axios";
 import * as constants from "./constants.ts";
-import { sampleHomeDataPayload, homeDashbaordData } from "./sample-data.js";
+import { 
+    sampleHomeDataPayload,
+    homeDashbaordData, 
+    demandGapsSampleData, 
+    pfepRequiredSampleData, 
+    pfepShortageAlertsSampleData, 
+    erpDiscrepancySampleData, 
+    moqCeilingSampleData, 
+    duplciateWorkcenterSampleData } from "./sample-data.js";
 import type { HomeDataPayload, HomeDashboardData } from "./sample-data.js";
 
 
@@ -40,3 +48,18 @@ export const getHomeData = (payload: HomeDataPayload) => {
     });
 };
 
+export const getTableData = (alertType: typeof constants.typesOfAlerts[number]) => {
+    const tableMap = {
+        "pfepShortage": pfepShortageAlertsSampleData,
+        "pfepRequired": pfepRequiredSampleData,
+        "moqCeiling": moqCeilingSampleData,
+        "erp": erpDiscrepancySampleData,
+        "demandGaps": demandGapsSampleData,
+        "duplicateWorkcenter": duplciateWorkcenterSampleData
+    };
+    return new Promise<typeof tableMap[typeof constants.typesOfAlerts[number]]>((resolve) => {
+        setTimeout(() => {
+            resolve(tableMap[alertType]);
+        }, 1000);
+    });
+};

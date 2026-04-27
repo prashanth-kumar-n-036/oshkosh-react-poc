@@ -5,13 +5,13 @@ import {
 } from 'recharts';
 import { homeDashbaordData } from '../sample-data';
 import { formatDateWithOmission } from '../../../utils/util-functions';
-import { barColors as colors } from '../constants';
+import { barColors as colors, typesOfAlerts } from '../constants';
 import { useState } from 'react';
 
-export default function MOQCeilingAlert() {
+export default function MOQCeilingAlert({onClick}: {onClick: (value: typeof typesOfAlerts[number]) => void}) {
     const data = homeDashbaordData.MOQAlertGraphs;
     const handleBarClick = (data: BarRectangleItem, index: number) => {
-        alert(`You clicked ${data.name}!`);
+        onClick("moqCeiling");
     };
 
 

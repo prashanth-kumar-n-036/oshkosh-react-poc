@@ -5,14 +5,14 @@ import {
 } from 'recharts';
 import { homeDashbaordData } from '../sample-data';
 import { formatDateWithOmission } from '../../../utils/util-functions';
-import { barColors as colors } from '../constants';
+import { barColors as colors, typesOfAlerts } from '../constants';
 
-export default function PfepRequiredAlert() {
+export default function PfepRequiredAlert({onClick}: {onClick: (value: typeof typesOfAlerts[number]) => void}) {
     const data = homeDashbaordData.RequiredAlertGraphs;
     const plotArea = usePlotArea();
     console.log('Plot Area:', plotArea); // Debugging log for plot area dimensions
     const handleBarClick = (data: BarRectangleItem, index: number) => {
-        alert(`You clicked ${data.name}!`);
+        onClick("pfepRequired");
     };
 
 

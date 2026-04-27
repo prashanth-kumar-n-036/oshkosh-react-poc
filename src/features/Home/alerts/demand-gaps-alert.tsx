@@ -1,11 +1,12 @@
 
 import { useEffect, useMemo, useState } from "react";
+import { typesOfAlerts } from "../constants";
 
 interface DemandGapsAlertProps {
     value: number;
     label?: string;
     icon?: React.ReactNode;
-    onClick?: () => void;
+    onClick?: (alertType: typeof typesOfAlerts[number]) => void;
     durationMs?: number;
 }
 
@@ -69,7 +70,7 @@ const DemandGapsAlert = ({
 
     return (
         <div
-            onClick={onClick}
+            onClick={() => onClick && onClick("demandGaps")}
             role={onClick ? "button" : undefined}
             tabIndex={onClick ? 0 : undefined}
             className={`

@@ -11,6 +11,13 @@ import { getTableData } from "./api";
 import { demandGapsSampleData, duplciateWorkcenterSampleData, pfepRequiredSampleData, pfepShortageAlertsSampleData, erpDiscrepancySampleData, moqCeilingSampleData } from "./sample-data";
 import type { AlertTableDataType } from "./sample-data";
 
+const scrollToTable = () => {
+  const tableElement = document.getElementById("table-skeleton");
+  if (tableElement) {
+    tableElement.scrollIntoView({ behavior: "smooth" });
+  }
+}
+
 export default function Alerts() {
   const [alertType, setAlertType] = useState<typeof typesOfAlerts[number] | null>(null);
   const [conciseTable, setConciseTable] = useState<React.ReactNode | "loading" | null>(<TableSkeletion />);
@@ -18,6 +25,7 @@ export default function Alerts() {
 
   useEffect(() => {
     const fetchData = async () => {
+      scrollToTable();
       setConciseTable(<TableSkeletion />);
       const getTableDataForAlert = async (alertType: typeof typesOfAlerts[number]) => await getTableData(alertType);
       let component = null;
@@ -44,10 +52,11 @@ export default function Alerts() {
           console.log("No alert selected");
       }
 
-      setConciseTable(<TableSkeletion />);
+      setConciseTable(component);
     }
-
-    fetchData();
+    if(alertType) {
+      fetchData();
+    }
   }, [alertType])
 
   return (
@@ -90,7 +99,7 @@ export default function Alerts() {
 
 export function TableSkeletion() {
   return (
-    <div className="mt-4">
+    <div className="mt-4" id="table-skeleton">
       <div className="animate-pulse flex justify-center">
        {/*  <div className="h-4 bg-gray-300 rounded w-1/4 mb-4"></div>
         <div className="h-48 bg-gray-300 rounded"></div> */}

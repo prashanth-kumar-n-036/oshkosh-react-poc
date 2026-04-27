@@ -35,7 +35,7 @@ export const formatDate = (date: string | Date | null | undefined) => {
       const dateParts: Record<"year" | "month" | "day", string | number> = {"year": year, "month": month, "day": day};
       const dateString = Object.keys(dateParts).reduce((acc, key) => {
         if(!omit.includes(key)) {
-          acc += dateParts[key as keyof typeof dateParts] + '-';          
+          acc += dateParts[key as keyof typeof dateParts] + '/';          
         }
         return acc;
       },"");

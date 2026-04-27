@@ -26,12 +26,12 @@ export default function PfepShortageAlert({onClick}: {onClick: (value: typeof ty
    
    
        return (
-           <div className='w-full min-w-[20vw] h-[320px] bg-slate-50 rounded-xl'>
-               <ResponsiveContainer>
-                   <BarChart data={transformedData} margin={{ top: 30, right: 30, left: 20, bottom: 5 }}>
-                       <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee" />
-                       <XAxis dataKey="name" axisLine={false} tickLine={false} interval={0} fontSize={8} />
-                       <YAxis axisLine={false} tickLine={false} />
+               <div className='w-full min-w-[15vw] h-[200px] bg-slate-50 rounded-xl'>
+            <ResponsiveContainer width="100%">
+                <BarChart data={transformedData} margin={{ top: 20, right: 0, left: 0, bottom: 5 }} barCategoryGap={4}>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee" />
+                    <XAxis dataKey="name" axisLine={false} tickLine={false} interval={0} fontSize={8} padding={{left: 0, right: 0}}/>
+                    <YAxis axisLine={false} tickLine={false} fontSize={12}/>
                        <Tooltip
                            cursor={{ fill: 'transparent' }}
                            contentStyle={{ borderRadius: '10px', border: 'none', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', fontSize: 12 }}

@@ -16,6 +16,7 @@ export function DemandGapsTable({data, isConcise}: {data: AlertTableDataType; is
                 scrollHeight="400px"
                 className="p-datatable-sm"
                 size="small"
+                showGridlines
                 >
                 {pfepDemandGapColumns.map((col) => (
                     <Column key={col[valueKey]} field={col[valueKey]} header={col[tableKey]} />

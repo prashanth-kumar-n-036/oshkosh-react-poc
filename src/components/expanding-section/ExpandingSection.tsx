@@ -4,7 +4,7 @@ import { Button } from "primereact/button";
 interface ExpandingSectionProps {
   title?: string;
   children: React.ReactNode;
-  expandableContent: React.ReactNode | null;
+  expandableContent: React.ReactNode | "loading" | null;
   headerChildren?: React.ReactNode;
 }
 
@@ -43,7 +43,11 @@ export default function ExpandingSection({
         }`}
       >
         <div className="text-gray-700 border-t border-gray-200 pt-4 overflow-y-auto max-h-[500px]">
-          {expandableContent}
+          {expandableContent === "loading" ? (
+            <p>Loading...</p>
+          ) : (
+            expandableContent
+          )}
         </div>
       </div>
     </div>

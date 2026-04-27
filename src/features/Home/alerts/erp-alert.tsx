@@ -7,7 +7,7 @@ import { homeDashbaordData } from '../sample-data';
 import { formatDateWithOmission } from '../../../utils/util-functions';
 import { barColors as colors, typesOfAlerts } from '../constants';
 
-export default function ERPAlert({onClick}: {onClick: (value: typeof typesOfAlerts[number]) => void}) {
+export default function ERPAlert({ onClick }: { onClick: (value: typeof typesOfAlerts[number]) => void }) {
     const data = homeDashbaordData.ERPAlertGraphs;
     const handleBarClick = (data: BarRectangleItem, index: number) => {
         onClick("erp");
@@ -26,15 +26,31 @@ export default function ERPAlert({onClick}: {onClick: (value: typeof typesOfAler
 
 
     return (
-        <div className='w-full min-w-[20vw] h-[320px] bg-slate-50 rounded-xl'>
-            <ResponsiveContainer>
-                <BarChart data={transformedData} margin={{ top: 30, right: 30, left: 20, bottom: 5 }}>
+        <div className='w-full min-w-[15vw] h-[200px] bg-slate-50 rounded-xl'>
+            <ResponsiveContainer width="100%">
+                <BarChart data={transformedData} margin={{ top: 20, right: 0, left: 0, bottom: 5 }} barCategoryGap={4}>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee" />
-                    <XAxis dataKey="name" axisLine={false} tickLine={false} interval={0} fontSize={8}
-                        angle={-45}
-                        textAnchor="end"
-                    />
-                    <YAxis axisLine={false} tickLine={false} />
+                    <XAxis
+                        dataKey="name"
+                        axisLine={false} 
+                        tickLine={false} 
+                        interval={0} 
+                        fontSize={8} 
+                        padding={{ left: 0, right: 0 }}
+                        height={40}
+                        tick={({x,y, payload}) => {
+                            const words = payload.value.split(' ');
+                            const maxWordsPerLine = 1;
+                            
+                            return (
+                                <text x={x} y={y} textAnchor="middle" fontSize={8} className="fill-slate-600">
+                                    <tspan x={x} dy="2">{words.slice(0, maxWordsPerLine).join(" ")}</tspan>
+                                    {words.length > maxWordsPerLine && <tspan x={x} dy="14">{words.slice(maxWordsPerLine, 2 * maxWordsPerLine).join(" ")}</tspan>}
+                                    {words.length > 2 * maxWordsPerLine && <tspan x={x} dy="14">{words.slice(2 * maxWordsPerLine, 3 * maxWordsPerLine).join(" ")}</tspan>}
+                                    </text>
+                            )
+                        }} />
+                    <YAxis axisLine={false} tickLine={false} fontSize={12} />
                     <Tooltip
                         cursor={{ fill: 'transparent' }}
                         contentStyle={{ borderRadius: '10px', border: 'none', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', fontSize: 12 }}

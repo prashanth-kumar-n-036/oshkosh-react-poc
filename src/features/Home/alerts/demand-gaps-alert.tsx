@@ -79,7 +79,7 @@ const DemandGapsAlert = ({
                 items-center
                 justify-center
                 rounded-xl
-                w-full min-w-[20vw] h-[320px] bg-slate-50 rounded-xl
+                w-full min-w-[15vw] h-[200px] bg-slate-50 rounded-xl
                 cursor-pointer
                 select-none
                 transition

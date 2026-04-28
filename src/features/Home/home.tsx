@@ -8,6 +8,7 @@ import { HomeContextProvider } from "./homeContext";
 import { SearchBar } from "./search-bar";
 import type { SearchState } from "./search-bar";
 import { legendData } from "./constants";
+import Metrics from "./metrics";
 
 
 
@@ -44,6 +45,10 @@ export function HomeComponent() {
 
       {/* Search Section */}
       <SearchBar data={data.homeDashboardData!} search={search} setSearch={setSearch} />
+
+      <div className="px-8 py-4 w-full">
+        <Metrics />
+      </div>
 
       <div className="px-8 py-4 w-full">
         {/* Alerts Section */}

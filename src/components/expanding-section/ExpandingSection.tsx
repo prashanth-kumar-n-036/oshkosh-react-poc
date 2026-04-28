@@ -16,10 +16,6 @@ export default function ExpandingSection({
   headerChildren,
   scrollToID
 }: ExpandingSectionProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  
-
   return (
     <div className="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm ">
       <div className="flex items-center justify-between mb-4 flex-col sm:flex-row gap-y-2">

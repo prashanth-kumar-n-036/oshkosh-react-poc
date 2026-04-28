@@ -39,7 +39,7 @@ export default function ERPAlert({
   const stackKeys = data[0]?.series.map((s) => s.name) || [];
 
   return (
-    <div className="w-full min-w-[15.25vw] h-[200px] bg-slate-100 rounded-xl">
+    <div className="w-[15.25vw] min-w-[300px] h-[200px] bg-slate-100 rounded-xl">
       <ResponsiveContainer width="100%">
         <BarChart
           data={transformedData}
@@ -102,6 +102,7 @@ export default function ERPAlert({
           <YAxis axisLine={false} tickLine={false} fontSize={12} />
           <Tooltip
             cursor={{ fill: "transparent" }}
+            allowEscapeViewBox = {{x: false, y: false}}
             contentStyle={{
               borderRadius: "10px",
               border: "none",

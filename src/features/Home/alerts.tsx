@@ -11,22 +11,23 @@ import { getTableData } from "./api";
 import { demandGapsSampleData, duplciateWorkcenterSampleData, pfepRequiredSampleData, pfepShortageAlertsSampleData, erpDiscrepancySampleData, moqCeilingSampleData } from "./sample-data";
 import type { AlertTableDataType } from "./sample-data";
 
+const expandingSectionId = "table-container";
 const scrollToTable = () => {
-  const tableElement = document.getElementById("table-skeleton");
+  const tableElement = document.getElementById(expandingSectionId);
   if (tableElement) {
-    tableElement.scrollIntoView({ behavior: "smooth" });
+    setTimeout(() => tableElement.scrollIntoView({ behavior: "smooth" }), 1000);
   }
 }
 
 export default function Alerts() {
   const [alertType, setAlertType] = useState<typeof typesOfAlerts[number] | null>(null);
-  const [conciseTable, setConciseTable] = useState<React.ReactNode | "loading" | null>(<TableSkeletion />);
+  const [conciseTable, setConciseTable] = useState<React.ReactNode | "loading" | null>(null);
 
 
   useEffect(() => {
     const fetchData = async () => {
-      scrollToTable();
       setConciseTable(<TableSkeletion />);
+      scrollToTable();
       const getTableDataForAlert = async (alertType: typeof typesOfAlerts[number]) => await getTableData(alertType);
       let component = null;
       const data : AlertTableDataType = await getTableDataForAlert(alertType as typeof typesOfAlerts[number])
@@ -64,30 +65,31 @@ export default function Alerts() {
       title="Alerts"
       headerChildren={<CustomLegend payload={legendData} />}
       expandableContent={conciseTable}
+      scrollToID={expandingSectionId}
     >
       <div className="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm">
         <div className="flex flex-row justify-around flex-wrap gap-6 gap-y-12">
-          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm">
+          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden">
               <PfepRequiredAlert onClick={setAlertType} />
               <p className="text-slate-500 text-xs font-bold text-center pt-4">PFEP Required </p>
           </div>
-          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm">
+          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden">
             <PfepShortageAlert onClick={setAlertType} />
             <p className="text-slate-500 text-xs font-bold text-center pt-4">PFEP Over/Under Planned</p>
           </div>
-          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm">
+          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden">
             <MOQCeilingAlert onClick={setAlertType} />
             <p className="text-slate-500 text-xs font-bold text-center pt-4">MOQ Ceiling</p>
           </div>
-          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm">
+          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden">
             <ERPAlert onClick={setAlertType} />
             <p className="text-slate-500 text-xs font-bold text-center pt-4" >ERP Discrepancy</p>
           </div>
-          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm">
+          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden">
             <DemandGapsAlert onClick={setAlertType} value={45} label="Demand Gaps" />
             <p className="text-slate-500 text-xs font-bold text-center pt-4">PFEP Demand Gaps</p>
           </div>
-          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm">
+          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden">
             <DemandGapsAlert onClick={setAlertType} value={10} label="Duplicate Workcenter Assignment" />
             <p className="text-slate-500 text-xs font-bold text-center pt-4">Duplicate Workcenter Assignment</p>
           </div>
@@ -135,7 +137,7 @@ export function TableSkeletion() {
      
 
 export const CustomLegend = ({ payload }: any) => (
-  <ul className="flex gap-4 text-sm">
+  <ul className="flex gap-3 text-sm sm:gap-4">
     {payload.map((item: any) => (
       <li key={item.dataKey} className="flex items-center gap-2">
         <span

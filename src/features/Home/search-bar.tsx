@@ -36,9 +36,9 @@ export const SearchBar = ({ data, search, setSearch }: { data: HomeDashboardData
         setLookupOpen(false);
     }
     return (
-        <div className="px-16 py-8 w-5/6 ">
-            <div className="bg-white border border-gray-200 rounded-3xl p-6 flex items-center gap-4 shadow-sm border-t-amber-600 border-t-2">
-                <FloatLabel className="flex-1">
+        <div className="px-4 py-8 w-5/6 sm:px-16 min-w-[300px]">
+            <div className="bg-white border border-gray-200 rounded-3xl p-6 flex flex-col md:flex-row items-center justify-center flex-wrap gap-4 shadow-sm border-t-amber-600 border-t-2">
+                <FloatLabel className="flex-1 w-full min-w-[200px]">
                     <Dropdown
                         id="org_id_dd"
                         className="p-inputtext-sm rounded-full border-gray-200 bg-gray-50 w-full"
@@ -50,7 +50,7 @@ export const SearchBar = ({ data, search, setSearch }: { data: HomeDashboardData
                     ></Dropdown>
                     <label htmlFor="org_id_dd">Select Organization</label>
                 </FloatLabel>
-                <FloatLabel className="flex-1">
+                <FloatLabel className="flex-1 w-full min-w-[200px]">
                     <Dropdown
                         id="facility_id_dd"
                         className="p-inputtext-sm rounded-full border-gray-200 bg-gray-50 w-full"
@@ -96,7 +96,7 @@ export const SearchBar = ({ data, search, setSearch }: { data: HomeDashboardData
                 </div>
                 <Button
                     label="Search"
-                    className="p-button-rounded p-button-sm"
+                    className="p-button-rounded p-button-sm min-w-[100px]"
                 />
             </div>
         </div>

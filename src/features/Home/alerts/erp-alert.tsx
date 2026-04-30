@@ -15,13 +15,20 @@ import {
 import { homeDashbaordData } from "../sample-data";
 import { formatDateWithOmission } from "../../../utils/util-functions";
 import { barColors as colors, typesOfAlerts } from "../constants";
+import { StackedBarSkeleton } from "../../../components/Skeletons/stacked-bar-graph";
 
 export default function ERPAlert({
   onClick,
+  isLoading = false,
+  data
 }: {
   onClick: (value: (typeof typesOfAlerts)[number]) => void;
+  isLoading?: boolean;
+  data?: typeof homeDashbaordData.ERPAlertGraphs
 }) {
-  const data = homeDashbaordData.ERPAlertGraphs;
+  if (isLoading || !data) return <StackedBarSkeleton />;
+  //const data = homeDashbaordData.ERPAlertGraphs;
+
   const handleBarClick = (data: BarRectangleItem, index: number) => {
     onClick("erp");
   };
@@ -62,7 +69,10 @@ export default function ERPAlert({
               const titleCaseValue = value
                 .replace(/_/g, " ")
                 .split(/\s+/)
-            .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                .map(
+                  (word) =>
+                    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
+                )
                 .join(" ");
 
               console.log(titleCaseValue);
@@ -102,7 +112,7 @@ export default function ERPAlert({
           <YAxis axisLine={false} tickLine={false} fontSize={12} />
           <Tooltip
             cursor={{ fill: "transparent" }}
-            allowEscapeViewBox = {{x: false, y: false}}
+            allowEscapeViewBox={{ x: false, y: false }}
             contentStyle={{
               borderRadius: "10px",
               border: "none",

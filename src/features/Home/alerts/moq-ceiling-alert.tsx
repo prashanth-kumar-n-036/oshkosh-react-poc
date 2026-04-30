@@ -15,14 +15,19 @@ import {
 import { homeDashbaordData } from "../sample-data";
 import { formatDateWithOmission } from "../../../utils/util-functions";
 import { barColors as colors, typesOfAlerts } from "../constants";
-import { useState } from "react";
+import { StackedBarSkeleton } from "../../../components/Skeletons/stacked-bar-graph";
 
 export default function MOQCeilingAlert({
   onClick,
+  isLoading = false,
+  data
 }: {
   onClick: (value: (typeof typesOfAlerts)[number]) => void;
+  isLoading?: boolean;
+  data?: typeof homeDashbaordData.MOQAlertGraphs;
 }) {
-  const data = homeDashbaordData.MOQAlertGraphs;
+  if (isLoading || !data) return <StackedBarSkeleton />;
+  //const data = homeDashbaordData.MOQAlertGraphs;
   const handleBarClick = (data: BarRectangleItem, index: number) => {
     onClick("moqCeiling");
   };

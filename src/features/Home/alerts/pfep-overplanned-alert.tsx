@@ -15,13 +15,19 @@ import {
 import { homeDashbaordData } from "../sample-data";
 import { formatDateWithOmission } from "../../../utils/util-functions";
 import { barColors as colors, typesOfAlerts } from "../constants";
+import { StackedBarSkeleton } from "../../../components/Skeletons/stacked-bar-graph";
 
 export default function PfepShortageAlert({
   onClick,
+  isLoading = false,
+  data
 }: {
   onClick: (value: (typeof typesOfAlerts)[number]) => void;
+  isLoading?: boolean;
+  data?: typeof homeDashbaordData.ShortageAlertGraphs;
 }) {
-  const data = homeDashbaordData.ShortageAlertGraphs;
+  if (isLoading || !data) return <StackedBarSkeleton />;
+  //const data = homeDashbaordData.ShortageAlertGraphs;
   const handleBarClick = (data: BarRectangleItem, index: number) => {
     onClick("pfepShortage");
   };
@@ -101,3 +107,5 @@ export default function PfepShortageAlert({
     </div>
   );
 }
+
+

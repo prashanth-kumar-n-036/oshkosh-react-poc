@@ -14,7 +14,7 @@ export interface SearchState {
     WORK_CENTER:  string[];
 }
 
-export const SearchBar = ({ data, search, setSearch }: { data: HomeDashboardData; search: SearchState; setSearch: React.Dispatch<React.SetStateAction<SearchState>> }) => {
+export const SearchBar = ({ data, search, setSearch, onSearchClick }: { data: HomeDashboardData; search: SearchState; setSearch: React.Dispatch<React.SetStateAction<SearchState>>; onSearchClick: () => void }) => {
     const [lookupOpen, setLookupOpen] = useState<boolean>(false);
     const [workCenterOptions, setWorkCenterOptions] = useState<any[]>([]);
     const lookupRef = useRef<OverlayPanel>(null);
@@ -35,6 +35,7 @@ export const SearchBar = ({ data, search, setSearch }: { data: HomeDashboardData
         lookupRef.current?.hide();
         setLookupOpen(false);
     }
+
     return (
         <div className="px-4 py-8 w-5/6 sm:px-16 min-w-[300px]">
             <div className="bg-white border border-gray-200 rounded-3xl p-6 flex flex-col md:flex-row items-center justify-center flex-wrap gap-4 shadow-sm border-t-amber-600 border-t-2">
@@ -44,7 +45,7 @@ export const SearchBar = ({ data, search, setSearch }: { data: HomeDashboardData
                         className="p-inputtext-sm rounded-full border-gray-200 bg-gray-50 w-full"
                         optionValue="ORG_ID"
                         optionLabel="ORG_ID"
-                        options={data.Segment}
+                        options={data?.Segment ?? []}
                         value={search.ORG_ID}
                         onChange={(e) => setSearch(prev => ({ ...prev, ORG_ID: e.value }))}
                     ></Dropdown>
@@ -56,7 +57,7 @@ export const SearchBar = ({ data, search, setSearch }: { data: HomeDashboardData
                         className="p-inputtext-sm rounded-full border-gray-200 bg-gray-50 w-full"
                         optionValue="FACILITY_ID"
                         optionLabel="FACILITY_ID"
-                        options={data.Warehouse}
+                        options={data?.Warehouse ?? []}
                         value={search.FACILITY_ID}
                         onChange={(e) => setSearch(prev => ({ ...prev, FACILITY_ID: e.value }))}
                     ></Dropdown>
@@ -97,6 +98,7 @@ export const SearchBar = ({ data, search, setSearch }: { data: HomeDashboardData
                 <Button
                     label="Search"
                     className="p-button-rounded p-button-sm min-w-[100px]"
+                    onClick={onSearchClick}
                 />
             </div>
         </div>

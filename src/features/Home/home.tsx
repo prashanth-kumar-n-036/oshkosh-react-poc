@@ -1,13 +1,11 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
 import Alerts, {CustomLegend} from "./alerts";
-import ExpandingSection from "../../components/expanding-section/ExpandingSection";
 import HomeContext from "./homeContext";
 import useFetchHomeLoadData from "./useFetchHomeLoadData";
 import { HomeContextProvider } from "./homeContext";
 import { SearchBar } from "./search-bar";
 import type { SearchState } from "./search-bar";
-import { legendData } from "./constants";
 import Metrics from "./metrics";
 
 
@@ -16,13 +14,14 @@ export function HomeComponent() {
   const navigate = useNavigate();
   const data = useContext(HomeContext);
   const [search, setSearch] = useState<SearchState>({ORG_ID: "", FACILITY_ID: "", WORK_CENTER: []});
-  const { isDataFetched, isError } = useFetchHomeLoadData();
+  const [searchInfoAfterSearchClicked, setSearchClicked] = useState<SearchState>(search);
+  const { isDataFetched, isError } = useFetchHomeLoadData(searchInfoAfterSearchClicked);
 
   const handleUserClick = () => {
     navigate("/profile");
   };
 
-  if(!data.homeDashboardData || !data.dropDownData || !isDataFetched) return (<div>Loading</div>)
+  const isLoading = (!data.homeDashboardData || !data.dropDownData || !isDataFetched)
   return (
     <div className="bg-white min-h-screen flex flex-col items-center">
       {/* Header */}
@@ -44,16 +43,16 @@ export function HomeComponent() {
       </header>
 
       {/* Search Section */}
-      <SearchBar data={data.homeDashboardData!} search={search} setSearch={setSearch} />
+      <SearchBar data={data.homeDashboardData!} search={search} setSearch={setSearch}  onSearchClick = {() => setSearchClicked(search)}/>
 
       <div className="px-8 py-4 w-full">
-        <Metrics />
+        <Metrics isLoading = {isLoading} />
       </div>
 
       <div className="px-8 py-4 w-full">
         {/* Alerts Section */}
         <div className="mb-4">
-            <Alerts />
+            <Alerts isLoading = {isLoading} data={data.homeDashboardData}/>
         </div>
       </div>
     </div>

@@ -10,7 +10,7 @@ interface ExpandingSectionProps {
 }
 
 export default function ExpandingSection({
-  title = "Expanding Section",
+  title = "",
   children,
   expandableContent,
   headerChildren,

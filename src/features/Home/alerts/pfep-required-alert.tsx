@@ -17,15 +17,19 @@ import {
 import { homeDashbaordData } from "../sample-data";
 import { formatDateWithOmission } from "../../../utils/util-functions";
 import { barColors as colors, typesOfAlerts } from "../constants";
+import { StackedBarSkeleton } from "../../../components/Skeletons/stacked-bar-graph";
 
 export default function PfepRequiredAlert({
   onClick,
+  isLoading = false,
+  data
 }: {
   onClick: (value: (typeof typesOfAlerts)[number]) => void;
+  isLoading?: boolean;
+  data?: typeof homeDashbaordData.RequiredAlertGraphs;
 }) {
-  const data = homeDashbaordData.RequiredAlertGraphs;
-  const plotArea = usePlotArea();
-  console.log("Plot Area:", plotArea); // Debugging log for plot area dimensions
+  if (isLoading || !data) return <StackedBarSkeleton />;
+
   const handleBarClick = (data: BarRectangleItem, index: number) => {
     onClick("pfepRequired");
   };
@@ -43,7 +47,7 @@ export default function PfepRequiredAlert({
   const stackKeys = data[0]?.series.map((s) => s.name) || [];
 
   return (
-    <div className="w-[15.25vw] min-w-[300px] min-w-[300px] h-[200px] bg-slate-100 rounded-xl">
+    <div className="w-[15.25vw] min-w-[300px] h-[200px] bg-slate-100 rounded-xl">
       <ResponsiveContainer width="100%">
         <BarChart
           data={transformedData}
@@ -105,3 +109,6 @@ export default function PfepRequiredAlert({
     </div>
   );
 }
+
+
+

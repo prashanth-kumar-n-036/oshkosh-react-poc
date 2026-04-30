@@ -4,13 +4,14 @@ import { getHomeData, getUserBasedOptions } from "./api";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import type { HomeDashboardData, HomeDataPayload } from "./sample-data";
 import { formatDate, setDate } from "../../utils/util-functions";
+import type { SearchState } from "./search-bar";
 
-export default function useFetchHomeLoadData() {
+export default function useFetchHomeLoadData(search: SearchState) {
     const { setUserBasedOptions, setDropDownData, setHomeDashboardData } = useContext(HomeContext);
 
     // fetch user based options
     const { data:userData, isLoading: isUserBasedOptionsLoading, error: userBasedOptionsError, } = useQuery<HomeDataPayload>({
-        queryKey: ["userBasedOptions"],
+        queryKey: ["userBasedOptions", search.ORG_ID, search.FACILITY_ID, search.WORK_CENTER],
         queryFn: getUserBasedOptions
     })
 

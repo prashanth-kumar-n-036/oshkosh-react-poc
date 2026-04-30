@@ -7,9 +7,16 @@ import ExpandingSection from "../../components/expanding-section/ExpandingSectio
 import { legendData, typesOfAlerts } from "./constants";
 import React, { useEffect, useState } from "react";
 import { DemandGapsTable } from "./alert-tables/demand-gaps-table";
+import { ERPDiscrepancyTable } from "./alert-tables/erp-alert-table";
+import { ShortageALertTable } from "./alert-tables/pfep-overplanned-table";
+import { MOQCeilingTable } from "./alert-tables/moq-ceiling-table";
+import { PFEPRequiredTable } from "./alert-tables/pfep-required-table";
+import { DuplicateWCAlertTable } from "./alert-tables/duplicate-WC-table";
 import { getTableData } from "./api";
-import { demandGapsSampleData, duplciateWorkcenterSampleData, pfepRequiredSampleData, pfepShortageAlertsSampleData, erpDiscrepancySampleData, moqCeilingSampleData } from "./sample-data";
+import { type HomeDashboardData } from "./sample-data";
 import type { AlertTableDataType } from "./sample-data";
+import DuplicateWCAlert from "./alerts/duplicate-WC-alert";
+import { TableSkeleton } from "../../components/Skeletons/table";
 
 const expandingSectionId = "table-container";
 const scrollToTable = () => {
@@ -19,32 +26,32 @@ const scrollToTable = () => {
   }
 }
 
-export default function Alerts() {
+export default function Alerts({isLoading = false, data}: {isLoading: boolean; data?: HomeDashboardData | null }) {
   const [alertType, setAlertType] = useState<typeof typesOfAlerts[number] | null>(null);
   const [conciseTable, setConciseTable] = useState<React.ReactNode | "loading" | null>(null);
 
 
   useEffect(() => {
     const fetchData = async () => {
-      setConciseTable(<TableSkeletion />);
+      setConciseTable(<TableSkeleton />);
       scrollToTable();
       const getTableDataForAlert = async (alertType: typeof typesOfAlerts[number]) => await getTableData(alertType);
       let component = null;
       const data : AlertTableDataType = await getTableDataForAlert(alertType as typeof typesOfAlerts[number])
       switch (true) {
         case alertType === "pfepRequired" && data.type === "pfep_required_alerts":
-            component = <DemandGapsTable data={data} isConcise={true} />;
+            component = <PFEPRequiredTable data={data} isConcise={true} />;
         case alertType === "duplicateWorkcenter" && data.type === "pfep_duplicate_workcenter_assignment":
-            component = <DemandGapsTable data={data} isConcise={true} />;
+            component = <DuplicateWCAlertTable data={data} isConcise={true} />;
           break;
         case alertType === "pfepShortage" && data.type === "pfep_shortage_alerts":
-            component = <DemandGapsTable data={data} isConcise={true} />;
+            component = <ShortageALertTable data={data} isConcise={true} />;
           break;
         case alertType === "moqCeiling" && data.type === "pfep_moq_ceiling_alerts":
-          component = <DemandGapsTable data={data} isConcise={true} />;
+          component = <MOQCeilingTable data={data} isConcise={true} />;
           break;
         case alertType === "erp" && data.type === "erp_discrepancy_alerts":
-          component = <DemandGapsTable data={data} isConcise={true} />;
+          component = <ERPDiscrepancyTable data={data} isConcise={true} />;
           break;
         case alertType === "demandGaps" && data.type === "pfep_demand_gaps":
           component = <DemandGapsTable data={data} isConcise={true} />;
@@ -69,69 +76,33 @@ export default function Alerts() {
     >
       <div className="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm">
         <div className="flex flex-row justify-around flex-wrap gap-6 gap-y-12">
-          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden">
-              <PfepRequiredAlert onClick={setAlertType} />
-              <p className="text-slate-500 text-xs font-bold text-center pt-4">PFEP Required </p>
+          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden ">
+              <PfepRequiredAlert onClick={setAlertType} isLoading={isLoading} data={data?.RequiredAlertGraphs}/>
+              {!isLoading && <p className="text-slate-500 text-xs font-bold text-center pt-4">PFEP Required </p>}
           </div>
           <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden">
-            <PfepShortageAlert onClick={setAlertType} />
-            <p className="text-slate-500 text-xs font-bold text-center pt-4">PFEP Over/Under Planned</p>
+            <PfepShortageAlert onClick={setAlertType}  isLoading={isLoading} data={data?.ShortageAlertGraphs}/>
+            {!isLoading && <p className="text-slate-500 text-xs font-bold text-center pt-4">PFEP Over/Under Planned</p>}
           </div>
           <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden">
-            <MOQCeilingAlert onClick={setAlertType} />
-            <p className="text-slate-500 text-xs font-bold text-center pt-4">MOQ Ceiling</p>
+            <MOQCeilingAlert onClick={setAlertType}  isLoading={isLoading} data={data?.MOQAlertGraphs}/>
+            {!isLoading && <p className="text-slate-500 text-xs font-bold text-center pt-4">MOQ Ceiling</p>}
           </div>
           <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden">
-            <ERPAlert onClick={setAlertType} />
-            <p className="text-slate-500 text-xs font-bold text-center pt-4" >ERP Discrepancy</p>
+            <ERPAlert onClick={setAlertType}  isLoading={isLoading} data={data?.ERPAlertGraphs}/>
+            {!isLoading && <p className="text-slate-500 text-xs font-bold text-center pt-4" >ERP Discrepancy</p>}
           </div>
-          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden">
-            <DemandGapsAlert onClick={setAlertType} value={45} label="Demand Gaps" />
-            <p className="text-slate-500 text-xs font-bold text-center pt-4">PFEP Demand Gaps</p>
+          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden flex flex-col">
+            <DemandGapsAlert onClick={setAlertType} value={45} label="Demand Gaps" isLoading={isLoading}/>
+            {!isLoading && <p className="text-slate-500 text-xs font-bold text-center pt-4">PFEP Demand Gaps</p>}
           </div>
-          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden">
-            <DemandGapsAlert onClick={setAlertType} value={10} label="Duplicate Workcenter Assignment" />
-            <p className="text-slate-500 text-xs font-bold text-center pt-4">Duplicate Workcenter Assignment</p>
+          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden flex flex-col">
+            <DuplicateWCAlert onClick={setAlertType} value={10} label="Duplicate Workcenter Assignment"  isLoading={isLoading}/>
+            {!isLoading && <p className="text-slate-500 text-xs font-bold text-center pt-4">Duplicate Workcenter Assignment</p>}
           </div>
         </div>
       </div>
     </ExpandingSection>
-  );
-}
-
-export function TableSkeletion() {
-  return (
-    <div className="mt-4" id="table-skeleton">
-      <div className="animate-pulse flex justify-center">
-       {/*  <div className="h-4 bg-gray-300 rounded w-1/4 mb-4"></div>
-        <div className="h-48 bg-gray-300 rounded"></div> */}
-        <table className="w-full mt-4 mx-20  border-slate-300 border border-collapse">
-          <thead>
-            <tr>
-              <th className="p-4 bg-gray-200 rounded-tl w-3/4  border border-slate-300">
-               
-              </th>
-              <th className="p-4 bg-gray-200 rounded-tl w-1/4  border border-slate-300">
-               
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {Array.from({ length: 5 }).map((_, index) => (
-              <tr key={index} className="border-0">
-                <td className="p-4 border-0">
-                  <div className="h-6 bg-gray-300 rounded mx-3"></div>
-                </td>
-                <td className="p-4  border-0">
-                  <div className="h-6 bg-gray-300 rounded mx-3"></div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className="text-center text-gray-500 mt-2">Loading table data...</p>
-    </div>
   );
 }
      

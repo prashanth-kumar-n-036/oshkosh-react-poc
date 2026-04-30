@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { typesOfAlerts } from "../constants";
 import { AlertMetricSkeleton } from '../../../components/Skeletons/alert-metric';
 
-interface DemandGapsAlertProps {
+interface DuplicateWCAlertProps {
   value: number;
   label?: string;
   icon?: React.ReactNode;
@@ -13,14 +13,14 @@ interface DemandGapsAlertProps {
 
 const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 
-const DemandGapsAlert = ({
+const DuplicateWCAlert = ({
   value,
   label,
   icon,
   onClick,
   durationMs = 3000,
   isLoading = false,
-}: DemandGapsAlertProps) => {
+}: DuplicateWCAlertProps) => {
   const isCountdown = value < 15;
 
   const startValue = useMemo(() => {
@@ -49,10 +49,9 @@ const DemandGapsAlert = ({
   }, [value, startValue, durationMs]);
 
   if (isLoading) return <AlertMetricSkeleton />;
-
   return (
     <div
-      onClick={() => onClick && onClick("demandGaps")}
+      onClick={() => onClick && onClick("duplicateWorkcenter")}
       role={onClick ? "button" : undefined}
       tabIndex={onClick ? 0 : undefined}
       className={`
@@ -88,4 +87,4 @@ const DemandGapsAlert = ({
   );
 };
 
-export default DemandGapsAlert;
+export default DuplicateWCAlert;

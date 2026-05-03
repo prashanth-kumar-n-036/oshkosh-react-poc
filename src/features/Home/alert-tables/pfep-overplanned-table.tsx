@@ -1,11 +1,10 @@
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import {
-  pfepShortageAlertsSampleData,
-  pfepShortageColumns,
+  pfepShortageAlertsSampleData,  
   type AlertTableDataType,
 } from "../sample-data";
-import { tableKey, valueKey } from "../sample-data";
+import { pfepShortageColumns, tableKey, valueKey } from "../constants";
 
 export function ShortageALertTable({
   data,

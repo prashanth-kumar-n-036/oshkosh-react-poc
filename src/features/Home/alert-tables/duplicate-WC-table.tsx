@@ -2,10 +2,10 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import {
   pfepDupWCAssignmentColumns,
-  duplciateWorkcenterSampleData,
+  
   type AlertTableDataType,
 } from "../sample-data";
-import { tableKey, valueKey } from "../sample-data";
+import { duplciateWorkcenterSampleData,tableKey, valueKey } from "../constants";
 
 export function DuplicateWCAlertTable({
   data,

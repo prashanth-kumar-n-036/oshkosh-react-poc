@@ -2,10 +2,9 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import {
   moqCeilingSampleData,
-  pfepMOQColumns,
   type AlertTableDataType,
 } from "../sample-data";
-import { tableKey, valueKey } from "../sample-data";
+import { pfepMOQColumns,tableKey, valueKey } from "../constants";
 
 export function MOQCeilingTable({
   data,

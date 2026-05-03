@@ -2,10 +2,9 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import {
   pfepRequiredSampleData,
-  pfepRequiredColumns,
   type AlertTableDataType,
 } from "../sample-data";
-import { tableKey, valueKey } from "../sample-data";
+import { pfepRequiredColumns, tableKey, valueKey } from "../constants";
 
 export function PFEPRequiredTable({
   data,

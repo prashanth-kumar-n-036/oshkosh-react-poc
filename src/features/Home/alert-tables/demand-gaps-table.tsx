@@ -5,7 +5,7 @@ import {
   pfepDemandGapColumns,
   type AlertTableDataType,
 } from "../sample-data";
-import { tableKey, valueKey } from "../sample-data";
+import { tableKey, valueKey } from "../constants";
 
 export function DemandGapsTable({
   data,

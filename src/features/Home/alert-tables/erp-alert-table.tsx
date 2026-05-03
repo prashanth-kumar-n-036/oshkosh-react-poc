@@ -2,10 +2,10 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import {
   erpDiscrepancySampleData,
-  pfepErpAlertColumns,
+  
   type AlertTableDataType,
 } from "../sample-data";
-import { tableKey, valueKey } from "../sample-data";
+import { pfepErpAlertColumns, tableKey, valueKey } from "../constants";
 
 export function ERPDiscrepancyTable({
   data,

@@ -171,6 +171,8 @@ export const pfepDemandGapColumns = [
     { [tableKey]: "Snooze", [valueKey]: "SNOOZE_IND", type: "checkBox" }
 ];
 
+/* ERP Discrpeancy */
+
 export const pfepErpAlertColumns = [
     { [tableKey]: "Segment", [valueKey]: "ORG_ID" },
     { [tableKey]: "Branch", [valueKey]: "FACILITY_ID" },
@@ -262,6 +264,8 @@ export const pfepDupWCAssignmentColumns = [
 
 
 //Metrics 
+
+export const typesOfMetrics = ["WeightDimension", "PastDueApprovals", "PackagingDetail"] as const
 
 export const weightsDimensionsColumns = {
     columns: [
@@ -404,8 +408,6 @@ export const weightsDimensionsColumns = {
         ]
     }
 };
-
-
 
 export const packageDetailColumns = {
     columns: [

@@ -46,7 +46,7 @@ export function HomeComponent() {
       <SearchBar data={data.homeDashboardData!} search={search} setSearch={setSearch}  onSearchClick = {() => setSearchClicked(search)}/>
 
       <div className="px-8 py-4 w-full">
-        <Metrics isLoading = {isLoading} />
+        <Metrics isLoading = {isLoading} data={data.homeDashboardData}/>
       </div>
 
       <div className="px-8 py-4 w-full">

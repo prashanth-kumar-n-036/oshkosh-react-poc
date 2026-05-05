@@ -52,7 +52,7 @@ export default function PfepShortageAlert({
           margin={{ top: 20, right: 5, left: 0, bottom: 5 }}
           barCategoryGap={4}
         >
-          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee" />
+          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ddd"  strokeWidth={1}/>
           <XAxis
             dataKey="name"
             axisLine={false}

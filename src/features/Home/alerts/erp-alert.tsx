@@ -20,16 +20,16 @@ import { StackedBarSkeleton } from "../../../components/Skeletons/stacked-bar-gr
 export default function ERPAlert({
   onClick,
   isLoading = false,
-  data
+  data,
 }: {
   onClick: (value: (typeof typesOfAlerts)[number]) => void;
   isLoading?: boolean;
-  data?: typeof homeDashbaordData.ERPAlertGraphs
+  data?: typeof homeDashbaordData.ERPAlertGraphs;
 }) {
   if (isLoading || !data) return <StackedBarSkeleton />;
   //const data = homeDashbaordData.ERPAlertGraphs;
 
-  const handleBarClick = (data: BarRectangleItem, index: number) => {
+  const handleBarClick = () => {
     onClick("erp");
   };
 
@@ -47,13 +47,16 @@ export default function ERPAlert({
 
   return (
     <div className="w-[15.25vw] min-w-[300px] h-[200px] bg-slate-100 rounded-xl">
-      <ResponsiveContainer width="100%">
+      <ResponsiveContainer width="100%" >
         <BarChart
           data={transformedData}
           margin={{ top: 20, right: 5, left: 0, bottom: 5 }}
           barCategoryGap={4}
+          onClick={handleBarClick}
+          tabIndex={-1}
+          className="focus:outline-none focus-visible:outline-none cursor-pointer"
         >
-          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee" />
+          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ddd"  strokeWidth={1}/>
           <XAxis
             dataKey="name"
             axisLine={false}
@@ -128,7 +131,6 @@ export default function ERPAlert({
                 dataKey={key}
                 stackId="a"
                 fill={colors[index]}
-                onClick={handleBarClick}
                 isAnimationActive={true}
                 animationDuration={2000} // Requirement #6: 2s Animation
                 animationEasing="ease-out"

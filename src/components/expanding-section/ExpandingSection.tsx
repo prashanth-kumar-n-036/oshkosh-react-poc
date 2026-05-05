@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Button } from "primereact/button";
+import React, { useEffect, useState } from "react";
 
 interface ExpandingSectionProps {
   title?: string;
@@ -14,13 +13,25 @@ export default function ExpandingSection({
   children,
   expandableContent,
   headerChildren,
-  scrollToID
+  scrollToID,
 }: ExpandingSectionProps) {
+  const [exContent, setExpandableContent] = useState<
+    React.ReactNode | "loading" | null
+  >(null);
+  useEffect(() => {
+    if (expandableContent === null) {
+      setTimeout(() => setExpandableContent(expandableContent), 2000);
+    } else {
+      setExpandableContent(expandableContent);
+    }
+  }, [expandableContent]);
   return (
     <div className="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm ">
       <div className="flex items-center justify-between mb-4 flex-col sm:flex-row gap-y-2">
         <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
-        {headerChildren && <div className="text-gray-500">{headerChildren}</div>}
+        {headerChildren && (
+          <div className="text-gray-500">{headerChildren}</div>
+        )}
         {/* <Button
           icon={isExpanded ? "pi pi-chevron-up" : "pi pi-chevron-down"}
           rounded
@@ -39,12 +50,11 @@ export default function ExpandingSection({
           !!expandableContent ? "max-h-[500px]" : "max-h-0"
         }`}
       >
-        <div className="text-gray-700 border-t border-gray-200 pt-4 overflow-y-auto max-h-[500px]" id={scrollToID || ''}>
-          {expandableContent === "loading" ? (
-            <p>Loading...</p>
-          ) : (
-            expandableContent
-          )}
+        <div
+          className={`text-gray-700 border-t border-gray-200 pt-4 overflow-y-auto transition-all duration-1000 ${!!expandableContent ? "max-h-[500px]" : "max-h-0"}`}
+          id={scrollToID || ""}
+        >
+          {expandableContent === "loading" ? <p>Loading...</p> : expandableContent}
         </div>
       </div>
     </div>

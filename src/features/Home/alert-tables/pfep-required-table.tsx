@@ -1,7 +1,6 @@
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import {
-  pfepRequiredSampleData,
   type AlertTableDataType,
 } from "../sample-data";
 import { pfepRequiredColumns, tableKey, valueKey } from "../constants";
@@ -13,7 +12,7 @@ export function PFEPRequiredTable({
   data: AlertTableDataType;
   isConcise: boolean;
 }) {
-  if (data.type !== "pfep_demand_gaps") return null;
+ 
   return (
     <div className="mt-4">
       {/** Datatable with colored header according to the current theme. */}
@@ -23,17 +22,19 @@ export function PFEPRequiredTable({
         rows={10}
         rowsPerPageOptions={[5, 10, 25, 50]}
         scrollHeight="400px"
+        scrollable
         className="p-datatable-sm"
         size="small"
         showGridlines
       >
-        {pfepShortageColumns.map((col) => (
+        {pfepRequiredColumns.map((col) => (
           <Column
             key={col[valueKey]}
             field={col[valueKey]}
             header={col[tableKey]}
             headerStyle={{ backgroundColor: "#3e7fcb", color: "#ffffff" }}
-            bodyClassName="text-sm font-semibold"
+            headerClassName="text-sm"
+            bodyClassName="text-xs font-semibold"
           />
         ))}
       </DataTable>

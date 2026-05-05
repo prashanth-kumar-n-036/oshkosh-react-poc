@@ -1,47 +1,128 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ExpandingSection from "../../components/expanding-section/ExpandingSection";
 import { Card } from "primereact/card";
 import { MetricSkeleton } from "../../components/Skeletons/metric";
 import { TableSkeleton } from "../../components/Skeletons/table";
+import type {
+  ContainerRecord,
+  HomeDashboardData,
+  ItemRecord,
+} from "./sample-data";
+import type { typesOfMetrics } from "./constants";
+import { getMetricTableData } from "./api";
+import { WeightsAndDimensionsTable } from "./metric-tables/weights-dimensions-table";
+import { PackagingDetailTable } from "./metric-tables/packaging-detail";
 
-export default function Metrics({isLoading}: {isLoading: boolean}) {
+const expandingSectionId = "metric-table-container";
+const scrollToTable = () => {
+  const tableElement = document.getElementById(expandingSectionId);
+  if (tableElement) {
+    setTimeout(() => tableElement.scrollIntoView({ behavior: "smooth" }), 1000);
+  }
+};
+
+function isItemRecord(
+  value: ItemRecord[] | ContainerRecord[],
+): value is ItemRecord[] {
+  return !!value && Array.isArray(value) && "ITEM_ID" in value[0];
+}
+function isContainerRecord(
+  value: ItemRecord[] | ContainerRecord[],
+): value is ContainerRecord[] {
+  return !!value && Array.isArray(value) && "CONTAINER_SID" in value[0];
+}
+
+export default function Metrics({
+  isLoading,
+  data,
+}: {
+  isLoading: boolean;
+  data: HomeDashboardData | null;
+}) {
   const [conciseTable, setConciseTable] = useState<
     React.ReactNode | "loading" | null
   >(null);
 
+  const [metricType, setMetricType] = useState<
+    (typeof typesOfMetrics)[number] | null
+  >(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setConciseTable(<TableSkeleton />);
+      scrollToTable();
+      const getTableDataForMetric = async (
+        metricType: (typeof typesOfMetrics)[number],
+      ): Promise<ItemRecord[] | ContainerRecord[]> =>
+        await getMetricTableData(metricType);
+      let component = null;
+      if (metricType) {
+        const data: Array<ItemRecord> | Array<ContainerRecord> =
+          await getTableDataForMetric(
+            metricType as (typeof typesOfMetrics)[number],
+          );
+        switch (true) {
+          case metricType === "WeightDimension" && isItemRecord(data):
+            component = (
+              <WeightsAndDimensionsTable data={data} isConcise={true} />
+            );
+            break;
+          case metricType === "PackagingDetail" && isContainerRecord(data):
+            component = <PackagingDetailTable data={data} isConcise={true} />;
+            break;
+          default:
+            console.log("No alert selected");
+        }
+
+        setConciseTable(component);
+      }
+    };
+    if (metricType) {
+      fetchData();
+    } else {
+      setConciseTable(null);
+    }
+  }, [metricType]);
+
   const metrics = [
     {
       title: "Weights & Dimensions",
-      value: 128,
+      type: "WeightDimension",
+      value: data?.WeightDimension || 0,
       icon: "pi pi-box",
       iconColor: "#4f8fd9",
     },
     {
       title: "Past Due Approvals",
-      value: 7,
+      type: "PastDueApprovals",
+      value: data?.PastDueApprovals || 0,
       icon: "pi pi-clock",
       iconColor: "#ff6f61",
     },
     {
       title: "Packaging Details",
-      value: 42,
+      type: "PackagingDetail",
+      value: data?.PackagingDetail || 0,
       icon: "pi pi-briefcase",
       iconColor: "#ff9f58",
     },
   ];
 
-  const metricClicked = (metric: string) => {
-    setConciseTable(<TableSkeleton />)
-  }
+  const metricClicked = (metric: (typeof typesOfMetrics)[number]) => {
+    let newMetric:(typeof typesOfMetrics)[number] |  null  = metric;
+    if (metric === metricType) newMetric = null;
+    setMetricType(newMetric);
+  };
 
   return (
     <ExpandingSection expandableContent={conciseTable}>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {metrics.map((metric, i) => {
-          if(isLoading) return <MetricSkeleton key={i}/>
-          return <Card
-            key={metric.title}
-            className="
+          if (isLoading) return <MetricSkeleton key={i} />;
+          return (
+            <Card
+              key={metric.title}
+              className="
             bg-slate-100
             border
             border-blue-300
@@ -53,35 +134,35 @@ export default function Metrics({isLoading}: {isLoading: boolean}) {
             shadow-none
             
           "
-            onClick={() => metricClicked(metric.title)}
-          >
-            <div className="flex items-center justify-between">
-              {/* Left: Text */}
-              <div>
-                <div className="text-sm font-semibold text-slate-600">
-                  {metric.title}
+              onClick={() =>
+                metricClicked(metric.type as (typeof typesOfMetrics)[number])
+              }
+            >
+              <div className="flex items-center justify-between">
+                {/* Left: Text */}
+                <div>
+                  <div className="text-sm font-semibold text-slate-600">
+                    {metric.title}
+                  </div>
+                  <div className="mt-2 text-4xl font-bold text-slate-900">
+                    {metric.value}
+                  </div>
                 </div>
-                <div className="mt-2 text-4xl font-bold text-slate-900">
-                  {metric.value}
-                </div>
-              </div>
 
-              {/* Right: Icon */}
-              <i
-                className={`pi ${metric.icon}`}
-                style={{
-                  fontSize: "3rem",
-                  color: metric.iconColor,
-                  opacity: 0.85,
-                }}
-              />
-            </div>
-          </Card>
-        }
-        )}
+                {/* Right: Icon */}
+                <i
+                  className={`pi ${metric.icon}`}
+                  style={{
+                    fontSize: "3rem",
+                    color: metric.iconColor,
+                    opacity: 0.85,
+                  }}
+                />
+              </div>
+            </Card>
+          );
+        })}
       </div>
     </ExpandingSection>
   );
 }
-
-

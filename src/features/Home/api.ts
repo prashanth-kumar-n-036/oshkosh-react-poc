@@ -8,8 +8,10 @@ import {
     pfepShortageAlertsSampleData, 
     erpDiscrepancySampleData, 
     moqCeilingSampleData, 
-    duplciateWorkcenterSampleData } from "./sample-data.js";
-import type { HomeDataPayload, HomeDashboardData } from "./sample-data.js";
+    duplciateWorkcenterSampleData,
+    weightDimesnsionSample, 
+    packagingDetailsSample} from "./sample-data.js";
+import type { HomeDataPayload, HomeDashboardData, ItemRecord, ContainerRecord } from "./sample-data.js";
 
 
 
@@ -63,3 +65,13 @@ export const getTableData = (alertType: typeof constants.typesOfAlerts[number]) 
         }, 1000);
     });
 };
+
+export const getMetricTableData = (metricType: typeof constants.typesOfMetrics[number]): Promise<ItemRecord[] | ContainerRecord[] | never[]>  => {
+    const tableMap = {
+        "WeightDimension": weightDimesnsionSample() ,"PastDueApprovals": [], "PackagingDetail": packagingDetailsSample()
+    }
+
+    return new Promise<typeof tableMap[typeof constants.typesOfMetrics[number]]>(res => {
+        setTimeout(() => res(tableMap[metricType]), 1000)
+    })
+}

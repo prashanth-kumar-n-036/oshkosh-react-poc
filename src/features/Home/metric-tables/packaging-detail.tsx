@@ -1,23 +1,20 @@
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import {
-  type AlertTableDataType,
-} from "../sample-data";
-import { pfepErpAlertColumns, tableKey, valueKey } from "../constants";
+import { tableKey, valueKey, packageDetailColumns } from "../constants";
+import type { ContainerRecord } from "../sample-data";
 
-export function ERPDiscrepancyTable({
+export function PackagingDetailTable({
   data,
   isConcise,
 }: {
-  data: AlertTableDataType;
+  data: ContainerRecord[];
   isConcise: boolean;
 }) {
-  
   return (
     <div className="mt-4">
       {/** Datatable with colored header according to the current theme. */}
       <DataTable
-        value={data.ERPAlert}
+        value={data}
         paginator={isConcise ? false : true}
         rows={10}
         rowsPerPageOptions={[5, 10, 25, 50]}
@@ -26,8 +23,9 @@ export function ERPDiscrepancyTable({
         className="p-datatable-sm"
         size="small"
         showGridlines
+        resizableColumns
       >
-        {pfepErpAlertColumns.map((col) => (
+        {packageDetailColumns.columns.map((col) => (
           <Column
             key={col[valueKey]}
             field={col[valueKey]}

@@ -13,10 +13,10 @@ import { MOQCeilingTable } from "./alert-tables/moq-ceiling-table";
 import { PFEPRequiredTable } from "./alert-tables/pfep-required-table";
 import { DuplicateWCAlertTable } from "./alert-tables/duplicate-WC-table";
 import { getTableData } from "./api";
-import { type HomeDashboardData } from "./sample-data";
-import type { AlertTableDataType } from "./sample-data";
+import type { AlertTableDataType, HomeDashboardData } from "./sample-data";
 import DuplicateWCAlert from "./alerts/duplicate-WC-alert";
 import { TableSkeleton } from "../../components/Skeletons/table";
+import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 
 const expandingSectionId = "table-container";
 const scrollToTable = () => {
@@ -24,30 +24,47 @@ const scrollToTable = () => {
   if (tableElement) {
     setTimeout(() => tableElement.scrollIntoView({ behavior: "smooth" }), 1000);
   }
-}
+};
 
-export default function Alerts({isLoading = false, data}: {isLoading: boolean; data?: HomeDashboardData | null }) {
-  const [alertType, setAlertType] = useState<typeof typesOfAlerts[number] | null>(null);
-  const [conciseTable, setConciseTable] = useState<React.ReactNode | "loading" | null>(null);
-
+export default function Alerts({
+  isLoading = false,
+  data,
+}: {
+  isLoading: boolean;
+  data?: HomeDashboardData | null;
+}) {
+  const [alertType, setAlertType] = useState<
+    (typeof typesOfAlerts)[number] | null
+  >(null);
+  const [conciseTable, setConciseTable] = useState<
+    React.ReactNode | "loading" | null
+  >(null);
 
   useEffect(() => {
     const fetchData = async () => {
       setConciseTable(<TableSkeleton />);
       scrollToTable();
-      const getTableDataForAlert = async (alertType: typeof typesOfAlerts[number]) => await getTableData(alertType);
+      const getTableDataForAlert = async (
+        alertType: (typeof typesOfAlerts)[number],
+      ) => await getTableData(alertType);
       let component = null;
-      const data : AlertTableDataType = await getTableDataForAlert(alertType as typeof typesOfAlerts[number])
+      const data: AlertTableDataType = await getTableDataForAlert(
+        alertType as (typeof typesOfAlerts)[number],
+      );
       switch (true) {
-        case alertType === "pfepRequired" && data.type === "pfep_required_alerts":
-            component = <PFEPRequiredTable data={data} isConcise={true} />;
-        case alertType === "duplicateWorkcenter" && data.type === "pfep_duplicate_workcenter_assignment":
-            component = <DuplicateWCAlertTable data={data} isConcise={true} />;
+        case alertType === "pfepRequired" &&
+          data.type === "pfep_required_alerts":
+          component = <PFEPRequiredTable data={data} isConcise={true} />;
+        case alertType === "duplicateWorkcenter" &&
+          data.type === "pfep_duplicate_workcenter_assignment":
+          component = <DuplicateWCAlertTable data={data} isConcise={true} />;
           break;
-        case alertType === "pfepShortage" && data.type === "pfep_shortage_alerts":
-            component = <ShortageALertTable data={data} isConcise={true} />;
+        case alertType === "pfepShortage" &&
+          data.type === "pfep_shortage_alerts":
+          component = <ShortageALertTable data={data} isConcise={true} />;
           break;
-        case alertType === "moqCeiling" && data.type === "pfep_moq_ceiling_alerts":
+        case alertType === "moqCeiling" &&
+          data.type === "pfep_moq_ceiling_alerts":
           component = <MOQCeilingTable data={data} isConcise={true} />;
           break;
         case alertType === "erp" && data.type === "erp_discrepancy_alerts":
@@ -61,11 +78,11 @@ export default function Alerts({isLoading = false, data}: {isLoading: boolean; d
       }
 
       setConciseTable(component);
-    }
-    if(alertType) {
+    };
+    if (alertType) {
       fetchData();
     }
-  }, [alertType])
+  }, [alertType]);
 
   return (
     <ExpandingSection
@@ -76,36 +93,152 @@ export default function Alerts({isLoading = false, data}: {isLoading: boolean; d
     >
       <div className="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm">
         <div className="flex flex-row justify-around flex-wrap gap-6 gap-y-12">
-          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden ">
-              <PfepRequiredAlert onClick={setAlertType} isLoading={isLoading} data={data?.RequiredAlertGraphs}/>
-              {!isLoading && <p className="text-slate-500 text-xs font-bold text-center pt-4">PFEP Required </p>}
-          </div>
-          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden">
-            <PfepShortageAlert onClick={setAlertType}  isLoading={isLoading} data={data?.ShortageAlertGraphs}/>
-            {!isLoading && <p className="text-slate-500 text-xs font-bold text-center pt-4">PFEP Over/Under Planned</p>}
-          </div>
-          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden">
-            <MOQCeilingAlert onClick={setAlertType}  isLoading={isLoading} data={data?.MOQAlertGraphs}/>
-            {!isLoading && <p className="text-slate-500 text-xs font-bold text-center pt-4">MOQ Ceiling</p>}
-          </div>
-          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden">
-            <ERPAlert onClick={setAlertType}  isLoading={isLoading} data={data?.ERPAlertGraphs}/>
-            {!isLoading && <p className="text-slate-500 text-xs font-bold text-center pt-4" >ERP Discrepancy</p>}
-          </div>
-          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden flex flex-col">
-            <DemandGapsAlert onClick={setAlertType} value={45} label="Demand Gaps" isLoading={isLoading}/>
-            {!isLoading && <p className="text-slate-500 text-xs font-bold text-center pt-4">PFEP Demand Gaps</p>}
-          </div>
-          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden flex flex-col">
-            <DuplicateWCAlert onClick={setAlertType} value={10} label="Duplicate Workcenter Assignment"  isLoading={isLoading}/>
-            {!isLoading && <p className="text-slate-500 text-xs font-bold text-center pt-4">Duplicate Workcenter Assignment</p>}
-          </div>
+          <DragDropContext onDragEnd={(res) => console.log(res)}>
+            <Droppable droppableId="alerts-droppable">
+              {(provided, snapshot) => (
+                <div ref={provided.innerRef} {...provided.droppableProps} className="flex flex-row justify-around flex-wrap gap-6 gap-y-12">
+                  <Draggable draggableId="draggable-required-alert" index={0} key="alert-0">
+                    {(provided, snapshot) => (
+                      <div
+                        className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden"
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <PfepRequiredAlert
+                          onClick={setAlertType}
+                          isLoading={isLoading}
+                          data={data?.RequiredAlertGraphs}
+                        />
+                        {!isLoading && (
+                          <p className="text-slate-500 text-xs font-bold text-center pt-4">
+                            PFEP Required{" "}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </Draggable>
+                  <Draggable draggableId="draggable-shortage-alert" index={1} key="alert-1">
+                    {(provided, snapshot) => (
+                      <div
+                        className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden"
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <PfepShortageAlert
+                          onClick={setAlertType}
+                          isLoading={isLoading}
+                          data={data?.ShortageAlertGraphs}
+                        />
+                        {!isLoading && (
+                          <p className="text-slate-500 text-xs font-bold text-center pt-4">
+                            PFEP Over/Under Planned
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </Draggable>
+                  <Draggable draggableId="draggable-moq-alert" index={2} key="alert-2">
+                    {(provided, snapshot) => (
+                      <div
+                        className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden"
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <MOQCeilingAlert
+                          onClick={setAlertType}
+                          isLoading={isLoading}
+                          data={data?.MOQAlertGraphs}
+                        />
+                        {!isLoading && (
+                          <p className="text-slate-500 text-xs font-bold text-center pt-4">
+                            MOQ Ceiling
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </Draggable>
+                  <Draggable draggableId="draggable-erp-alert" index={3} key="alert-3">
+                    {(provided, snapshot) => (
+                      <div
+                        className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden"
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <ERPAlert
+                          onClick={setAlertType}
+                          isLoading={isLoading}
+                          data={data?.ERPAlertGraphs}
+                        />
+                        {!isLoading && (
+                          <p className="text-slate-500 text-xs font-bold text-center pt-4">
+                            ERP Discrepancy
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </Draggable>
+                  <Draggable draggableId="draggable-demand-alert" index={4} key="alert-4">
+                    {(provided, snapshot) => (
+                      <div
+                        className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden  flex flex-col" 
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <DemandGapsAlert
+                          onClick={setAlertType}
+                          value={45}
+                          label="Demand Gaps"
+                          isLoading={isLoading}
+                        />
+                        {!isLoading && (
+                          <p className="text-slate-500 text-xs font-bold text-center pt-4">
+                            PFEP Demand Gaps
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </Draggable>
+                  <Draggable draggableId="draggable-duplicateWC-alert" index={5} key="alert-5">
+                    {(provided, snapshot) => (
+                      <div
+                        className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden  flex flex-col"
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <DuplicateWCAlert
+                          onClick={setAlertType}
+                          value={10}
+                          label="Duplicate Workcenter Assignment"
+                          isLoading={isLoading}
+                        />
+                        {!isLoading && (
+                          <p className="text-slate-500 text-xs font-bold text-center pt-4">
+                            Duplicate Workcenter Assignment
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </Draggable>
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+
+          {/* <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden"></div>
+          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden"></div>
+          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden flex flex-col"></div>
+          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden flex flex-col"></div> */}
         </div>
       </div>
     </ExpandingSection>
   );
 }
-     
 
 export const CustomLegend = ({ payload }: any) => (
   <ul className="flex gap-3 text-sm sm:gap-4">

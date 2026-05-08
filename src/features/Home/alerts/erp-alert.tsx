@@ -1,3 +1,4 @@
+import { memo } from "react";
 import {
   BarChart,
   Bar,
@@ -5,25 +6,25 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
   LabelList,
   BarStack,
   Cell,
-  type BarRectangleItem,
 } from "recharts";
 import { homeDashbaordData } from "../sample-data";
 import { formatDateWithOmission } from "../../../utils/util-functions";
 import { barColors as colors, typesOfAlerts } from "../constants";
 import { StackedBarSkeleton } from "../../../components/Skeletons/stacked-bar-graph";
 
-export default function ERPAlert({
+function ERPAlert({
   onClick,
   isLoading = false,
+  isDragging = false,
   data,
 }: {
   onClick: (value: (typeof typesOfAlerts)[number]) => void;
   isLoading?: boolean;
+  isDragging?: boolean;
   data?: typeof homeDashbaordData.ERPAlertGraphs;
 }) {
   if (isLoading || !data) return <StackedBarSkeleton />;
@@ -131,13 +132,13 @@ export default function ERPAlert({
                 dataKey={key}
                 stackId="a"
                 fill={colors[index]}
-                isAnimationActive={true}
-                animationDuration={2000} // Requirement #6: 2s Animation
+                isAnimationActive={!isDragging}
+                animationDuration={isDragging ? 0 : 2000}
                 animationEasing="ease-out"
                 minPointSize={0.01}
               >
                 {/* Map through the data to apply unique Cell logic for each bar */}
-                {transformedData.map((entry, i) => (
+                {transformedData.map((_, i) => (
                   <Cell
                     key={`cell-${i}`}
                     className="cursor-pointer transition-opacity duration-300 hover:opacity-80"
@@ -158,3 +159,4 @@ export default function ERPAlert({
     </div>
   );
 }
+export default memo(ERPAlert);

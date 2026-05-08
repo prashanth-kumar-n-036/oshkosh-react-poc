@@ -808,7 +808,7 @@ export const homeDashbaordData = {
   WeightDimension: 23607,
   PackagingDetail: 49,
   PastDueApprovals: 5,
-  DemandGap: 0,
+  DemandGap: 45,
   WorkCenterList: [
     {
       WORK_CENTER_ID: "S7",

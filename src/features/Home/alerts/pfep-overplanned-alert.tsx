@@ -1,3 +1,4 @@
+import { memo } from "react";
 import {
   BarChart,
   Bar,
@@ -5,7 +6,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
   LabelList,
   BarStack,
@@ -17,18 +17,20 @@ import { formatDateWithOmission } from "../../../utils/util-functions";
 import { barColors as colors, typesOfAlerts } from "../constants";
 import { StackedBarSkeleton } from "../../../components/Skeletons/stacked-bar-graph";
 
-export default function PfepShortageAlert({
+function PfepShortageAlert({
   onClick,
   isLoading = false,
-  data
+  isDragging = false,
+  data,
 }: {
   onClick: (value: (typeof typesOfAlerts)[number]) => void;
   isLoading?: boolean;
+  isDragging?: boolean;
   data?: typeof homeDashbaordData.ShortageAlertGraphs;
 }) {
   if (isLoading || !data) return <StackedBarSkeleton />;
   //const data = homeDashbaordData.ShortageAlertGraphs;
-  const handleBarClick = (data: BarRectangleItem, index: number) => {
+  const handleBarClick = (_data: BarRectangleItem, _index: number) => {
     onClick("pfepShortage");
   };
 
@@ -80,13 +82,13 @@ export default function PfepShortageAlert({
                 stackId="a"
                 fill={colors[index]}
                 onClick={handleBarClick}
-                isAnimationActive={true}
-                animationDuration={2000} // Requirement #6: 2s Animation
+                isAnimationActive={!isDragging}
+                animationDuration={isDragging ? 0 : 2000}
                 animationEasing="ease-out"
                 minPointSize={0.01}
               >
                 {/* Map through the data to apply unique Cell logic for each bar */}
-                {transformedData.map((entry, i) => (
+                {transformedData.map((_, i) => (
                   <Cell
                     key={`cell-${i}`}
                     className="cursor-pointer transition-opacity duration-300 hover:opacity-80"
@@ -108,4 +110,4 @@ export default function PfepShortageAlert({
   );
 }
 
-
+export default memo(PfepShortageAlert);

@@ -1,3 +1,4 @@
+import { memo } from "react";
 import {
   BarChart,
   Bar,
@@ -5,32 +6,31 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
   LabelList,
   BarStack,
   Cell,
-  usePlotArea,
   type BarRectangleItem,
-  type TooltipIndex,
 } from "recharts";
 import { homeDashbaordData } from "../sample-data";
 import { formatDateWithOmission } from "../../../utils/util-functions";
 import { barColors as colors, typesOfAlerts } from "../constants";
 import { StackedBarSkeleton } from "../../../components/Skeletons/stacked-bar-graph";
 
-export default function PfepRequiredAlert({
+function PfepRequiredAlert({
   onClick,
   isLoading = false,
-  data
+  isDragging = false,
+  data,
 }: {
   onClick: (value: (typeof typesOfAlerts)[number]) => void;
   isLoading?: boolean;
+  isDragging?: boolean;
   data?: typeof homeDashbaordData.RequiredAlertGraphs;
 }) {
   if (isLoading || !data) return <StackedBarSkeleton />;
 
-  const handleBarClick = (data: BarRectangleItem, index: number) => {
+  const handleBarClick = (_data: BarRectangleItem, _index: number) => {
     onClick("pfepRequired");
   };
 
@@ -82,13 +82,13 @@ export default function PfepRequiredAlert({
                 stackId="a"
                 fill={colors[index]}
                 onClick={handleBarClick}
-                isAnimationActive={true}
-                animationDuration={2000} // Requirement #6: 2s Animation
+                isAnimationActive={!isDragging}
+                animationDuration={isDragging ? 0 : 2000}
                 animationEasing="ease-out"
                 minPointSize={0.01}
               >
                 {/* Map through the data to apply unique Cell logic for each bar */}
-                {transformedData.map((entry, i) => (
+                {transformedData.map((_, i) => (
                   <Cell
                     key={`cell-${i}`}
                     className="cursor-pointer transition-opacity duration-300 hover:opacity-80"
@@ -110,5 +110,4 @@ export default function PfepRequiredAlert({
   );
 }
 
-
-
+export default memo(PfepRequiredAlert);

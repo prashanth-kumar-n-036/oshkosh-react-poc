@@ -1,24 +1,27 @@
-import { useEffect, useMemo, useState } from "react";
+import React, { memo, useEffect, useMemo, useState } from "react";
 import { typesOfAlerts } from "../constants";
 import { AlertMetricSkeleton } from '../../../components/Skeletons/alert-metric';
+import type { homeDashbaordData } from "../sample-data";
 
 interface DemandGapsAlertProps {
-  value: number;
+  data?: typeof homeDashbaordData.DemandGap;
   label?: string;
   icon?: React.ReactNode;
   onClick?: (alertType: (typeof typesOfAlerts)[number]) => void;
   durationMs?: number;
+  isDragging?: boolean;
   isLoading?: boolean;
 }
 
 const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 
 const DemandGapsAlert = ({
-  value,
-  label,
+  data: value = 0,
+  label="Demand Gaps",
   icon,
   onClick,
   durationMs = 3000,
+  isDragging = false,
   isLoading = false,
 }: DemandGapsAlertProps) => {
   const isCountdown = value < 15;
@@ -30,6 +33,11 @@ const DemandGapsAlert = ({
   const [displayValue, setDisplayValue] = useState(startValue);
 
   useEffect(() => {
+    if (isDragging) {
+      setDisplayValue(value);
+      return;
+    }
+
     const startTime = performance.now();
 
     const animate = (now: number) => {
@@ -46,7 +54,7 @@ const DemandGapsAlert = ({
     };
 
     requestAnimationFrame(animate);
-  }, [value, startValue, durationMs]);
+  }, [value, startValue, durationMs, isDragging]);
 
   if (isLoading) return <AlertMetricSkeleton />;
 
@@ -88,4 +96,4 @@ const DemandGapsAlert = ({
   );
 };
 
-export default DemandGapsAlert;
+export default memo(DemandGapsAlert);

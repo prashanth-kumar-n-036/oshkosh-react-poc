@@ -1,24 +1,27 @@
-import { useEffect, useMemo, useState } from "react";
+import React, { memo, useEffect, useMemo, useState } from "react";
 import { typesOfAlerts } from "../constants";
 import { AlertMetricSkeleton } from '../../../components/Skeletons/alert-metric';
+import type { homeDashbaordData } from "../sample-data";
 
 interface DuplicateWCAlertProps {
-  value: number;
+  data?: typeof homeDashbaordData.MultipleAssignmentCount;
   label?: string;
   icon?: React.ReactNode;
   onClick?: (alertType: (typeof typesOfAlerts)[number]) => void;
   durationMs?: number;
+  isDragging?: boolean;
   isLoading?: boolean;
 }
 
 const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 
 const DuplicateWCAlert = ({
-  value,
-  label,
+  data: value = 0,
+  label = "Duplicate Workcenter Assignment",
   icon,
   onClick,
   durationMs = 3000,
+  isDragging = false,
   isLoading = false,
 }: DuplicateWCAlertProps) => {
   const isCountdown = value < 15;
@@ -30,6 +33,11 @@ const DuplicateWCAlert = ({
   const [displayValue, setDisplayValue] = useState(startValue);
 
   useEffect(() => {
+    if (isDragging) {
+      setDisplayValue(value);
+      return;
+    }
+
     const startTime = performance.now();
 
     const animate = (now: number) => {
@@ -46,7 +54,7 @@ const DuplicateWCAlert = ({
     };
 
     requestAnimationFrame(animate);
-  }, [value, startValue, durationMs]);
+  }, [value, startValue, durationMs, isDragging]);
 
   if (isLoading) return <AlertMetricSkeleton />;
   return (
@@ -87,4 +95,4 @@ const DuplicateWCAlert = ({
   );
 };
 
-export default DuplicateWCAlert;
+export default memo(DuplicateWCAlert);

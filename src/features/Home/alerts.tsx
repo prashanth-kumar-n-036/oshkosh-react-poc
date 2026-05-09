@@ -34,6 +34,7 @@ import {
 } from "@dnd-kit/sortable";
 
 import { CSS } from "@dnd-kit/utilities";
+import { Button } from "primereact/button";
 
 const expandingSectionId = "table-container";
 const scrollToTable = () => {
@@ -44,13 +45,13 @@ const scrollToTable = () => {
 };
 
 const allAlerts = [
-    "pfepShortage",
-    "pfepRequired",
-    "moqCeiling",
-    "erp",
-    "demandGaps",
-    "duplicateWorkcenter",
-  ];
+  "pfepShortage",
+  "pfepRequired",
+  "moqCeiling",
+  "erp",
+  "demandGaps",
+  "duplicateWorkcenter",
+];
 
 const getAlertConfig = (alert: string) => {
   const componentMap: Record<
@@ -110,7 +111,9 @@ export default function Alerts({
     React.ReactNode | "loading" | null
   >(null);
 
-  const [alerts, setAlerts] = useState<string[]>(AlertLocalStorageUtility.getAlerts() || [...allAlerts]);
+  const [alerts, setAlerts] = useState<string[]>(
+    AlertLocalStorageUtility.getAlerts() || [...allAlerts.slice()],
+  );
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -172,6 +175,12 @@ export default function Alerts({
     }
   }, [alertType]);
 
+  useEffect(() => {
+    if(AlertLocalStorageUtility.getAlerts() === null) {
+      AlertLocalStorageUtility.setAlerts(alerts);
+    }
+   }, []);
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (
@@ -189,8 +198,18 @@ export default function Alerts({
   };
 
   const getExcludedAlerts = () => {
-    return allAlerts.filter(a => alerts.indexOf(a) === -1)
-  }
+    return allAlerts.filter((a) => alerts.indexOf(a) === -1);
+  };
+
+  const addAlertToView = (alert: string) => {
+    const alerts = AlertLocalStorageUtility.addAlert(alert);
+    setAlerts([...alerts]);
+  };
+
+  const removeFromView = (alert: string) => {
+    const alerts = AlertLocalStorageUtility.removeAlert(alert);
+    setAlerts([...alerts]);
+  };
 
   return (
     <ExpandingSection
@@ -215,6 +234,7 @@ export default function Alerts({
                     setAlertType={setAlertType}
                     isLoading={isLoading}
                     data={data}
+                    removeFromView={removeFromView}
                   />
                 ))}
               </>
@@ -297,10 +317,21 @@ export default function Alerts({
             )}
           </div> */}
         </div>
-        <div className="flex">
-            {getExcludedAlerts().map(a => (
-              <span className="h-2 min-w-10 border border-slate-300 bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-700">{a}</span>
-            ))}
+        <div className="flex gap-4 justify-center border border-slate-200 p-3">
+          {getExcludedAlerts().map((a) => (
+            <>
+              <button
+                className="group h-8 min-w-10 relative py-2 px-3 text-xs border border-slate-200 rounded-lg bg-red-400 hover:bg-red-200 text-white font-medium"
+                onClick={() => addAlertToView(a)}
+              >
+                {getAlertConfig(a).name}
+                <span className="hidden py-2 px-3 group-hover:flex absolute h-8 w-full bg-green-400 top-0 left-0 rounded-lg cursor-pointer justify-center items-center text-xs font-medium">
+                  {" "}
+                  + Add{" "}
+                </span>
+              </button>
+            </>
+          ))}
         </div>
       </div>
     </ExpandingSection>
@@ -326,11 +357,13 @@ const SortableItem = ({
   setAlertType,
   isLoading,
   data,
+  removeFromView,
 }: {
   alert: string;
   setAlertType: (value: (typeof typesOfAlerts)[number]) => void;
   isLoading: boolean;
   data?: HomeDashboardData | null;
+  removeFromView: (a: string) => void;
 }) => {
   const {
     attributes,
@@ -360,11 +393,34 @@ const SortableItem = ({
 
   return (
     <div
-      className="bg-white border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden"
+      className="group relative flex flex-col bg-white border border-blue-300 px-4 py-3 rounded-md shadow-sm hover:bg-slate-50"
       ref={setNodeRef}
       style={style}
       {...attributes}
     >
+      <Button
+        style={{
+          position: "absolute",
+          top: "-0.75rem",
+          right: "-0.75rem",
+          width: "24px",
+          height: "24px",
+          minWidth: "24px",
+          padding: "0",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+        pt={{ icon: { style: { fontSize: "10px" } }}}
+        size="small"
+        icon="pi pi-times"
+        rounded
+        severity="danger"
+        aria-label="Cancel"
+        className="opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200"
+        onClick={() => removeFromView(alert)}
+        title="Remove from View"
+      />
       <Alert.component
         onClick={setAlertType}
         isLoading={isLoading}
@@ -373,12 +429,16 @@ const SortableItem = ({
       />
       {!isLoading && (
         <p
-          className="group text-slate-500 text-xs font-bold text-center pt-0.5 mt-4 cursor-move select-none hover:text-slate-700 hover:bg-slate-100 rounded transition-colors border border-transparent hover:border-slate-300 flex justify-between"
+          className={`group h-10 text-slate-500 hover:text-slate-700 text-xs font-bold text-center pt-0.5 mt-4 select-none  hover:bg-slate-100 rounded transition-colors border border-transparent hover:border-slate-300 flex justify-between items-center ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
           {...listeners}
         >
-          <span className="text-slate-200 group-hover:text-slate-700 ml-1">⋮⋮</span>
+          <span className="text-slate-50 group-hover:text-slate-700 ml-1">
+            ⋮⋮
+          </span>
           <span>{Alert.name}</span>
-          <span className="text-slate-200 group-hover:text-slate-700 mr-1">⋮⋮</span>
+          <span className="text-slate-50 group-hover:text-slate-700 mr-1">
+            ⋮⋮
+          </span>
         </p>
       )}
     </div>
@@ -388,11 +448,33 @@ const SortableItem = ({
 const AlertLocalStorageUtility = {
   localStorageKey: "dashboard_alerts",
   getAlerts: (): string[] | null => {
-    const stored = localStorage.getItem(AlertLocalStorageUtility.localStorageKey);
+    const stored = localStorage.getItem(
+      AlertLocalStorageUtility.localStorageKey,
+    );
     return stored ? JSON.parse(stored) : null;
   },
   setAlerts: (alerts: string[]) => {
-    localStorage.setItem(AlertLocalStorageUtility.localStorageKey, JSON.stringify(alerts));
+    localStorage.setItem(
+      AlertLocalStorageUtility.localStorageKey,
+      JSON.stringify(alerts),
+    );
   },
 
-}
+  addAlert: (alert: string): string[] => {
+    let alerts = AlertLocalStorageUtility.getAlerts();
+    alerts = alerts ?? [];
+    if (!alerts.includes(alert)) {
+      alerts.push(alert);
+    }
+    AlertLocalStorageUtility.setAlerts(alerts);
+    return [...alerts];
+  },
+
+  removeAlert: (alert: string): string[] => {
+    let alerts = AlertLocalStorageUtility.getAlerts();
+    alerts = alerts ?? [];
+    alerts = alerts.filter((a) => a !== alert);
+    AlertLocalStorageUtility.setAlerts(alerts);
+    return [...alerts];
+  },
+};

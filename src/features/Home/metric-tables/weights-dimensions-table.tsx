@@ -67,10 +67,9 @@ export function WeightsAndDimensionsTable({
         paginator={isConcise ? false : true}
         rows={10}
         rowsPerPageOptions={[5, 10, 25, 50]}
-        scrollHeight="400px"
+        scrollHeight={isConcise ? "400px" : "750px"}
         scrollable
-        className="p-datatable-sm"
-        size="small"
+        size={isConcise ? "small" : "normal"}
         showGridlines
         headerColumnGroup={headerGroup}
         tableStyle={{ tableLayout: "fixed" }}
@@ -85,11 +84,11 @@ export function WeightsAndDimensionsTable({
             key={col[valueKey]}
             field={col[valueKey]}
             header={col[tableKey]}
-            bodyClassName="max-w-[100px] truncate text-xs font-semibold"
+            bodyClassName="max-w-[100px] truncate text-xs font-semibold" 
             headerClassName="text-sm"
             body={(row) => (
               <span
-                className="max-w-[100px] truncate block  text-xs font-semibold"
+                className="max-w-[100px] truncate block text-xs font-semibold text-center"
                 title={row[col[valueKey]]}
               >
                 {row[col[valueKey]]}

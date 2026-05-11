@@ -79,7 +79,6 @@ function ERPAlert({
                 )
                 .join(" ");
 
-              console.log(titleCaseValue);
               const words = titleCaseValue.split(" ");
               const maxWordsPerLine = 1;
 

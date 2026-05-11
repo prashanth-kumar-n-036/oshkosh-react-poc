@@ -240,100 +240,26 @@ export default function Alerts({
               </>
             </SortableContext>
           </DndContext>
-
-          {/* 
-           <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden">
-            <PfepRequiredAlert
-              onClick={setAlertType}
-              isLoading={isLoading}
-              data={data?.RequiredAlertGraphs}
-            />
-            {!isLoading && (
-              <p className="text-slate-500 text-xs font-bold text-center pt-4">
-                PFEP Required{" "}
-              </p>
-            )}
-          </div>
-          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden">
-            <PfepShortageAlert
-              onClick={setAlertType}
-              isLoading={isLoading}
-              data={data?.ShortageAlertGraphs}
-            />
-            {!isLoading && (
-              <p className="text-slate-500 text-xs font-bold text-center pt-4">
-                PFEP Over/Under Planned
-              </p>
-            )}
-          </div>
-          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden">
-            <MOQCeilingAlert
-              onClick={setAlertType}
-              isLoading={isLoading}
-              data={data?.MOQAlertGraphs}
-            />
-            {!isLoading && (
-              <p className="text-slate-500 text-xs font-bold text-center pt-4">
-                MOQ Ceiling
-              </p>
-            )}
-          </div>
-          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden">
-            <ERPAlert
-              onClick={setAlertType}
-              isLoading={isLoading}
-              data={data?.ERPAlertGraphs}
-            />
-            {!isLoading && (
-              <p className="text-slate-500 text-xs font-bold text-center pt-4">
-                ERP Discrepancy
-              </p>
-            )}
-          </div>
-          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden  flex flex-col">
-            <DemandGapsAlert
-              onClick={setAlertType}
-              value={45}
-              label="Demand Gaps"
-              isLoading={isLoading}
-            />
-            {!isLoading && (
-              <p className="text-slate-500 text-xs font-bold text-center pt-4">
-                PFEP Demand Gaps
-              </p>
-            )}
-          </div>
-          <div className="border border-blue-300 px-4 py-3 rounded-md shadow-sm overflow-x-auto hover:overflow-hidden  flex flex-col">
-            <DuplicateWCAlert
-              onClick={setAlertType}
-              value={10}
-              label="Duplicate Workcenter Assignment"
-              isLoading={isLoading}
-            />
-            {!isLoading && (
-              <p className="text-slate-500 text-xs font-bold text-center pt-4">
-                Duplicate Workcenter Assignment
-              </p>
-            )}
-          </div> */}
         </div>
-        <div className="flex gap-4 justify-center border border-slate-200 p-3">
-          {getExcludedAlerts().map((a) => (
-            <>
+      </div>
+        <div className="flex flex-col gap-2 justify-center items-center mt-10 ">
+          <p className="font-medium">Excluded alerts:</p>
+          <div className="flex flex-wrap gap-2 border-2 border-slate-200 p-3 rounded-lg w-full justify-center">
+            {getExcludedAlerts().map((a) => (
               <button
-                className="group h-8 min-w-10 relative py-2 px-3 text-xs border border-slate-200 rounded-lg bg-red-400 hover:bg-red-200 text-white font-medium"
+              key={a}
+                className="group h-8 min-w-28 relative py-2 px-3 text-xs border border-slate-200 rounded-lg bg-red-400 hover:bg-red-200 text-white font-medium"
                 onClick={() => addAlertToView(a)}
               >
                 {getAlertConfig(a).name}
                 <span className="hidden py-2 px-3 group-hover:flex absolute h-8 w-full bg-green-400 top-0 left-0 rounded-lg cursor-pointer justify-center items-center text-xs font-medium">
-                  {" "}
-                  + Add{" "}
+                  <i className="pi pi-plus pr-1.5" style={{ fontSize: "10px", fontWeight: "bold" }}></i>
+                  Add to View
                 </span>
               </button>
-            </>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
     </ExpandingSection>
   );
 }
@@ -393,7 +319,7 @@ const SortableItem = ({
 
   return (
     <div
-      className="group relative flex flex-col bg-white border border-blue-300 px-4 py-3 rounded-md shadow-sm hover:bg-slate-50"
+      className="group relative flex flex-col bg-white border border-blue-300 px-4 py-3 rounded-md shadow-sm hover:bg-slate-50 "
       ref={setNodeRef}
       style={style}
       {...attributes}
@@ -417,7 +343,7 @@ const SortableItem = ({
         rounded
         severity="danger"
         aria-label="Cancel"
-        className="opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200"
+        className="opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:pointer-events-none sm:group-hover:pointer-events-auto transition-opacity duration-200"
         onClick={() => removeFromView(alert)}
         title="Remove from View"
       />

@@ -1,5 +1,5 @@
 import "./App.css";
-import { Route, Routes } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 import Home from "./features/Home/home";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -14,7 +14,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <div className="App">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/home/*" element={<Home />} />
+          <Route path="" element={<Navigate to="/home" />} />
         </Routes>
       </div>
     </QueryClientProvider>

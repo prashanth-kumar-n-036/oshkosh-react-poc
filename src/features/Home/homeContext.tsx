@@ -2,7 +2,7 @@ import { createContext, useState } from "react";
 import type { ReactNode } from "react";
 import type { HomeDashboardData, HomeDataPayload } from "./sample-data";
 
-interface HomeContextType {
+export interface HomeContextType {
   userBasedOptions: HomeDataPayload | null;
   dropDownData: { Segment: any[]; Warehouse: any[] } | null;
   homeDashboardData: HomeDashboardData | null;

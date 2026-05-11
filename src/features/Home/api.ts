@@ -1,8 +1,7 @@
 import axios from "axios";
 import * as constants from "./constants.ts";
 import { 
-    sampleHomeDataPayload,
-    homeDashbaordData, 
+    homeDashbaordData,
     demandGapsSampleData, 
     pfepRequiredSampleData, 
     pfepShortageAlertsSampleData, 
@@ -12,6 +11,17 @@ import {
     weightDimesnsionSample, 
     packagingDetailsSample} from "./sample-data.js";
 import type { HomeDataPayload, HomeDashboardData, ItemRecord, ContainerRecord } from "./sample-data.js";
+
+/* // Mock user object for POC
+const user = {
+  env: {
+    name: "Test User",
+    org_id: "ORG001",
+    facility_id: "FAC001",
+    work_center_id_list: '["WC1", "WC2"]',
+    alert_preference_list: "1,2,3,4,5,6"
+  }
+}; */
 
 
 

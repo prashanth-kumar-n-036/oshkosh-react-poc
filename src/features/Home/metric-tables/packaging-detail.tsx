@@ -18,10 +18,9 @@ export function PackagingDetailTable({
         paginator={isConcise ? false : true}
         rows={10}
         rowsPerPageOptions={[5, 10, 25, 50]}
-        scrollHeight="400px"
+        scrollHeight={isConcise ? "400px" : "750px"}
         scrollable
-        className="p-datatable-sm"
-        size="small"
+        size={isConcise ? "small" : "normal"}
         showGridlines
         resizableColumns
       >

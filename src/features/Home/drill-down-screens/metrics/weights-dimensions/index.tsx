@@ -6,7 +6,7 @@ export const WeightsDimensionTable = () => {
   return (
     <>
       <SearchBar
-        search={{ ORG_ID: "", FACILITY_ID: "", WORK_CENTER: [] }}
+        search={{ SUPPLIER_NAME: "", ITEM_ID: [], ORG_ID: "", FACILITY_ID: "" }}
         setSearch={() => {}}
         onSearchClick={() => {}}
       />

@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 import ExpandingSection from "../../components/expanding-section/ExpandingSection";
 import { Card } from "primereact/card";
+import { Button } from "primereact/button";
 import { MetricSkeleton } from "../../components/Skeletons/metric";
 import { TableSkeleton } from "../../components/Skeletons/table";
 import type {
@@ -47,6 +49,8 @@ export default function Metrics({
     (typeof typesOfMetrics)[number] | null
   >(null);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchData = async () => {
       setConciseTable(<TableSkeleton />);
@@ -64,11 +68,23 @@ export default function Metrics({
         switch (true) {
           case metricType === "WeightDimension" && isItemRecord(data):
             component = (
+              <>
               <WeightsAndDimensionsTable data={data} isConcise={true} />
+              <div className="w-full bg-slate-50 flex items-center justify-end p-6">
+                <Button label="View All records" size="small" link text severity="warning" icon="pi pi-chevron-right" iconPos="right" className="h-9 w-45" onClick={() => navigateToChildScreen("weights-dimensions")}/>
+              </div>
+              </>
             );
             break;
           case metricType === "PackagingDetail" && isContainerRecord(data):
-            component = <PackagingDetailTable data={data} isConcise={true} />;
+            component = (
+              <>
+              <PackagingDetailTable data={data} isConcise={true} />
+              <div className="w-full bg-slate-50 flex items-center justify-end p-6">
+                <Button label="View All records" size="small" link text severity="warning" icon="pi pi-chevron-right" iconPos="right" className="h-9 w-45"  onClick={() => navigateToChildScreen("packaging-detail")}/>
+              </div>
+              </>
+            );;
             break;
           default:
             console.log("No alert selected");
@@ -113,6 +129,13 @@ export default function Metrics({
     if (metric === metricType) newMetric = null;
     setMetricType(newMetric);
   };
+
+  const navigateToChildScreen = (path: string) => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setTimeout(() => {
+      navigate(`/home/${path}`);
+    }, 500);
+  }
 
   return (
     <ExpandingSection expandableContent={conciseTable}>

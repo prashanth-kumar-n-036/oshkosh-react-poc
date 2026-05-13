@@ -138,32 +138,128 @@ export default function Alerts({
         alertType === "pfepRequired" &&
         data.type === "pfep_required_alerts"
       ) {
-        component = <PFEPRequiredTable data={data} isConcise={true} />;
+        component = (
+          <>
+            <PFEPRequiredTable data={data} isConcise={true} />
+            <div className="w-full bg-slate-50 flex items-center justify-end p-6">
+              <Button
+                label="View All records"
+                size="small"
+                link
+                text
+                severity="warning"
+                icon="pi pi-chevron-right"
+                iconPos="right"
+                className="h-9 w-45"
+              />
+            </div>
+          </>
+        );
       } else if (
         alertType === "duplicateWorkcenter" &&
         data.type === "pfep_duplicate_workcenter_assignment"
       ) {
-        component = <DuplicateWCAlertTable data={data} isConcise={true} />;
+        component = (
+          <>
+            <DuplicateWCAlertTable data={data} isConcise={true} />
+            <div className="w-full bg-slate-50 flex items-center justify-end p-6">
+              <Button
+                label="View All records"
+                size="small"
+                link
+                text
+                severity="warning"
+                icon="pi pi-chevron-right"
+                iconPos="right"
+                className="h-9 w-45"
+              />
+            </div>
+          </>
+        );
       } else if (
         alertType === "pfepShortage" &&
         data.type === "pfep_shortage_alerts"
       ) {
-        component = <ShortageALertTable data={data} isConcise={true} />;
+        component = (
+          <>
+            <ShortageALertTable data={data} isConcise={true} />
+            <div className="w-full bg-slate-50 flex items-center justify-end p-6">
+              <Button
+                label="View All records"
+                size="small"
+                link
+                text
+                severity="warning"
+                icon="pi pi-chevron-right"
+                iconPos="right"
+                className="h-9 w-45"
+              />
+            </div>
+          </>
+        );
       } else if (
         alertType === "moqCeiling" &&
         data.type === "pfep_moq_ceiling_alerts"
       ) {
-        component = <MOQCeilingTable data={data} isConcise={true} />;
+        component = (
+          <>
+            <MOQCeilingTable data={data} isConcise={true} />
+            <div className="w-full bg-slate-50 flex items-center justify-end p-6">
+              <Button
+                label="View All records"
+                size="small"
+                link
+                text
+                severity="warning"
+                icon="pi pi-chevron-right"
+                iconPos="right"
+                className="h-9 w-45"
+              />
+            </div>
+          </>
+        );
       } else if (
         alertType === "erp" &&
         data.type === "erp_discrepancy_alerts"
       ) {
-        component = <ERPDiscrepancyTable data={data} isConcise={true} />;
+        component = (
+          <>
+            <ERPDiscrepancyTable data={data} isConcise={true} />
+            <div className="w-full bg-slate-50 flex items-center justify-end p-6">
+              <Button
+                label="View All records"
+                size="small"
+                link
+                text
+                severity="warning"
+                icon="pi pi-chevron-right"
+                iconPos="right"
+                className="h-9 w-45"
+              />
+            </div>
+          </>
+        );
       } else if (
         alertType === "demandGaps" &&
         data.type === "pfep_demand_gaps"
       ) {
-        component = <DemandGapsTable data={data} isConcise={true} />;
+        component = (
+          <>
+            <DemandGapsTable data={data} isConcise={true} />
+            <div className="w-full bg-slate-50 flex items-center justify-end p-6">
+              <Button
+                label="View All records"
+                size="small"
+                link
+                text
+                severity="warning"
+                icon="pi pi-chevron-right"
+                iconPos="right"
+                className="h-9 w-45"
+              />
+            </div>
+          </>
+        );
       } else {
         console.log("No alert selected");
       }
@@ -176,10 +272,10 @@ export default function Alerts({
   }, [alertType]);
 
   useEffect(() => {
-    if(AlertLocalStorageUtility.getAlerts() === null) {
+    if (AlertLocalStorageUtility.getAlerts() === null) {
       AlertLocalStorageUtility.setAlerts(alerts);
     }
-   }, []);
+  }, []);
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -242,24 +338,29 @@ export default function Alerts({
           </DndContext>
         </div>
       </div>
+      {allAlerts.length === alerts.length ? null : (
         <div className="flex flex-col gap-2 justify-center items-center mt-10 ">
           <p className="font-medium">Excluded alerts:</p>
           <div className="flex flex-wrap gap-2 border-2 border-slate-200 p-3 rounded-lg w-full justify-center">
             {getExcludedAlerts().map((a) => (
               <button
-              key={a}
+                key={a}
                 className="group h-8 min-w-28 relative py-2 px-3 text-xs border border-slate-200 rounded-lg bg-red-400 hover:bg-red-200 text-white font-medium"
                 onClick={() => addAlertToView(a)}
               >
                 {getAlertConfig(a).name}
                 <span className="hidden py-2 px-3 group-hover:flex absolute h-8 w-full bg-green-400 top-0 left-0 rounded-lg cursor-pointer justify-center items-center text-xs font-medium">
-                  <i className="pi pi-plus pr-1.5" style={{ fontSize: "10px", fontWeight: "bold" }}></i>
+                  <i
+                    className="pi pi-plus pr-1.5"
+                    style={{ fontSize: "10px", fontWeight: "bold" }}
+                  ></i>
                   Add to View
                 </span>
               </button>
             ))}
           </div>
         </div>
+      )}
     </ExpandingSection>
   );
 }
@@ -337,7 +438,7 @@ const SortableItem = ({
           alignItems: "center",
           justifyContent: "center",
         }}
-        pt={{ icon: { style: { fontSize: "10px" } }}}
+        pt={{ icon: { style: { fontSize: "10px" } } }}
         size="small"
         icon="pi pi-times"
         rounded

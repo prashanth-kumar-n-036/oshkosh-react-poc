@@ -11,7 +11,7 @@ export function PackagingDetailTable({
   isConcise: boolean;
 }) {
   return (
-    <div className="mt-4">
+    <div className={`isConcise ? 'mt-4' : 'mt-0'`}>
       {/** Datatable with colored header according to the current theme. */}
       <DataTable
         value={data}

@@ -47,11 +47,11 @@ export default function ExpandingSection({
       <div
         id={scrollToID || "expanding-section-container"}
         className={`overflow-hidden transition-all duration-1000 ease-in-out ${
-          !!expandableContent ? "max-h-[500px]" : "max-h-0"
+          !!expandableContent ? "max-h-[600px]" : "max-h-0"
         }`}
       >
         <div
-          className={`text-gray-700 border-t border-gray-200 pt-4 overflow-y-auto transition-all duration-1000 ${!!expandableContent ? "max-h-[500px]" : "max-h-0"}`}
+          className={`text-gray-700 border-t border-gray-200 pt-4 overflow-y-auto transition-all duration-1000 ${!!expandableContent ? "max-h-[600px]" : "max-h-0"}`}
           id={scrollToID || ""}
         >
           {expandableContent === "loading" ? <p>Loading...</p> : expandableContent}

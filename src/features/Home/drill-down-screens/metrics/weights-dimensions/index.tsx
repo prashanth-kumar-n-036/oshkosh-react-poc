@@ -10,7 +10,7 @@ export const WeightsDimensionTable = () => {
         setSearch={() => {}}
         onSearchClick={() => {}}
       />
-      <div className="mx-8 mb-6 border border-blue-300 rounded-lg shadow-sm p-4">
+      <div className="mx-8 mb-2 border border-blue-300 rounded-lg shadow-sm p-4">
         <WeightsAndDimensionsTable
           isConcise={false}
           data={weightDimesnsionSample()}

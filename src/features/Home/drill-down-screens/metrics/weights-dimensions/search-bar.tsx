@@ -51,22 +51,22 @@ export const SearchBar = ({
   };
 
   return (
-    <div className="px-4 py-8 w-5/6 sm:px-16 min-w-[300px]">
+    <div className="px-4 py-5 w-5/6 sm:px-16 min-w-[300px]">
       <div className="bg-white border border-gray-200 rounded-3xl p-6 flex flex-col md:flex-row items-center justify-center flex-wrap gap-4 shadow-sm border-t-amber-600 border-t-2">
         <FloatLabel className="flex-1 w-full min-w-[200px]">
           <InputText
-            className="w-full p-inputtext-sm flex-5"
+            className="w-full p-inputtext-sm flex-5 p-3 h-10"
             value={search.SUPPLIER_NAME}
             onChange={(e) =>
               setSearch((prev) => ({ ...prev, SUPPLIER_NAME: e.target.value }))
             }
           />
-          <label htmlFor="org_id_dd">Supplier Name</label>
+          <label htmlFor="org_id_dd" className="text-sm">Supplier Name</label>
         </FloatLabel>
         <FloatLabel className="flex-1 w-full min-w-[200px]">
           <Dropdown
             id="org_id_dd"
-            className="p-inputtext-sm rounded-full border-gray-200 bg-gray-50 w-full"
+            className="p-inputtext-sm rounded-full border-gray-200 bg-gray-50 w-full p-3 h-10"
             optionValue="ORG_ID"
             optionLabel="ORG_ID"
             options={dropDownData?.Segment ?? []}
@@ -75,12 +75,12 @@ export const SearchBar = ({
               setSearch((prev) => ({ ...prev, ORG_ID: e.value }))
             }
           ></Dropdown>
-          <label htmlFor="org_id_dd">Select Organization</label>
+          <label htmlFor="org_id_dd" className="text-sm">Select Organization</label>
         </FloatLabel>
         <FloatLabel className="flex-1 w-full min-w-[200px]">
           <Dropdown
             id="facility_id_dd"
-            className="p-inputtext-sm rounded-full border-gray-200 bg-gray-50 w-full"
+            className="p-inputtext-sm rounded-full border-gray-200 bg-gray-50 w-full p-3 h-10"
             optionValue="FACILITY_ID"
             optionLabel="FACILITY_ID"
             options={dropDownData?.Warehouse ?? []}
@@ -89,12 +89,12 @@ export const SearchBar = ({
               setSearch((prev) => ({ ...prev, FACILITY_ID: e.value }))
             }
           ></Dropdown>
-          <label htmlFor="facility_id_dd">Select Facility</label>
+          <label htmlFor="facility_id_dd" className="text-sm">Select Facility</label>
         </FloatLabel>
         <div className="p-inputgroup flex-1 rounded-full">
           <Button
             icon="pi pi-search"
-            className="p-button-warning p-button-sm outline-none"
+            className="p-button-warning p-button-sm outline-none h-10"
             size="small"
             onClick={(e) => lookupRef?.current?.toggle(e)}
           />
@@ -109,12 +109,12 @@ export const SearchBar = ({
               optionValue="ITEM_ID"
               optionLabel="ITEM_ID"
               options={itemOptions}
-              className="p-inputtext-sm border-gray-200 bg-gray-50 w-11/12 outline-none rounded-r-full"
+              className="p-inputtext-sm border-gray-200 bg-gray-50 w-11/12 outline-none rounded-r-full h-10"
               display="chip"
               maxSelectedLabels={2}
               disabled={lookupOpen}
             ></MultiSelect>
-            <label htmlFor="item_input">Item</label>
+            <label htmlFor="item_input" className="text-sm">Item</label>
           </FloatLabel>
           <OverlayPanel
             ref={lookupRef}

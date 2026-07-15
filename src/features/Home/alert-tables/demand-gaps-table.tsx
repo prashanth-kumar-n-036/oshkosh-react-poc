@@ -1,7 +1,6 @@
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import {
-  demandGapsSampleData,
   type AlertTableDataType,
 } from "../sample-data";
 import { tableKey, valueKey, pfepDemandGapColumns } from "../constants";

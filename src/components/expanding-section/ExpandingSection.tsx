@@ -15,7 +15,7 @@ export default function ExpandingSection({
   headerChildren,
   scrollToID,
 }: ExpandingSectionProps) {
-  const [exContent, setExpandableContent] = useState<
+ /*  const [exContent, setExpandableContent] = useState<
     React.ReactNode | "loading" | null
   >(null);
   useEffect(() => {
@@ -24,7 +24,7 @@ export default function ExpandingSection({
     } else {
       setExpandableContent(expandableContent);
     }
-  }, [expandableContent]);
+  }, [expandableContent]); */
   return (
     <div className="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm ">
       <div className="flex items-center justify-between mb-4 flex-col sm:flex-row gap-y-2">

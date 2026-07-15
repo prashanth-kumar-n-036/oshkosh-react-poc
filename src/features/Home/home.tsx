@@ -8,7 +8,6 @@ import { SearchBar } from "./search-bar";
 import type { SearchState } from "./search-bar";
 import Metrics from "./metrics";
 import { WeightsDimensionTable } from "./drill-down-screens/metrics/weights-dimensions";
-import type { HomeDashboardData } from "./sample-data";
 import { PackagingDetailsTable } from "./drill-down-screens/metrics/packaging-detail";
 
 export function HomeComponent({ data }: { data: HomeContextType }) {
@@ -19,7 +18,7 @@ export function HomeComponent({ data }: { data: HomeContextType }) {
   });
   const [searchInfoAfterSearchClicked, setSearchClicked] =
     useState<SearchState>(search);
-  const { isDataFetched, isError } = useFetchHomeLoadData(
+  const { isDataFetched } = useFetchHomeLoadData(
     searchInfoAfterSearchClicked,
   );
 

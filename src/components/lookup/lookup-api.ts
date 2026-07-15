@@ -151,7 +151,6 @@ export const sampleItemIdLookupValues = {
 };
 
 export const getFilters = async (
-  serviceUrl: string,
 ): Promise<typeof sampleFiltersData> => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -161,9 +160,6 @@ export const getFilters = async (
 };
 
 export const getLookupValues = async (
-  serviceUrl: string,
-  filter: string,
-  value: string,
   modelName: string,
 ): Promise<typeof sampleLookupValues | typeof sampleItemIdLookupValues> => {
   // This function would call the API to get the lookup values based on the filter and value

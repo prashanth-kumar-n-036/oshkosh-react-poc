@@ -30,10 +30,10 @@ export const SearchBar = ({
   const lookupRef = useRef<OverlayPanel>(null);
   const { dropDownData } = useContext(HomeContext);
 
-  const openLookup = (e: React.MouseEvent<HTMLButtonElement>) => {
+  /* const openLookup = (e: React.MouseEvent<HTMLButtonElement>) => {
     lookupRef.current?.toggle(e);
     setLookupOpen(!lookupOpen);
-  };
+  }; */
 
   const closeLookup = () => {
     lookupRef.current?.hide();

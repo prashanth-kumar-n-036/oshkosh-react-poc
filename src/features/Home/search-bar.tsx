@@ -19,10 +19,10 @@ export const SearchBar = ({ data, search, setSearch, onSearchClick }: { data: Ho
     const [workCenterOptions, setWorkCenterOptions] = useState<any[]>([]);
     const lookupRef = useRef<OverlayPanel>(null);
 
-    const openLookup = (e: React.MouseEvent<HTMLButtonElement>) => {
+    /* const openLookup = (e: React.MouseEvent<HTMLButtonElement>) => {
         lookupRef.current?.toggle(e);
         setLookupOpen(!lookupOpen);
-    };
+    }; */
 
     const closeLookup = () => {
         lookupRef.current?.hide();

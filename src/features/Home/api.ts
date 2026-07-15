@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import * as constants from "./constants.ts";
 import { 
     homeDashbaordData,
@@ -52,7 +52,7 @@ export const getUserBasedOptions = (): Promise<HomeDataPayload> => {
 };
 
 
-export const getHomeData = (payload: HomeDataPayload) => {
+export const getHomeData = () => {
     return new Promise<HomeDashboardData>((resolve) => {
         setTimeout(() => {
             resolve(homeDashbaordData);

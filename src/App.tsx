@@ -13,10 +13,11 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="App">
-        <Routes>
+       {/*  <Routes>
           <Route path="/home/*" element={<Home />} />
           <Route path="" element={<Navigate to="/home" />} />
-        </Routes>
+        </Routes> */}
+        <Home />
       </div>
     </QueryClientProvider>
   );

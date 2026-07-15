@@ -10,6 +10,8 @@ import Metrics from "./metrics";
 import { WeightsDimensionTable } from "./drill-down-screens/metrics/weights-dimensions";
 import { PackagingDetailsTable } from "./drill-down-screens/metrics/packaging-detail";
 
+import logo from '../../assets/OSKMAR_ScopeLogo_OrangeBlack.jpg';
+
 export function HomeComponent({ data }: { data: HomeContextType }) {
   const [search, setSearch] = useState<SearchState>({
     ORG_ID: "",
@@ -82,7 +84,7 @@ function HomeInner() {
       <header className="bg-orange-50 border-b border-orange-200 flex items-center justify-between px-8 py-4 w-full shadow-sm">
         <div className="flex items-center gap-3 flex-wrap">
           <img
-            src="/src/assets/OSKMAR_ScopeLogo_OrangeBlack.jpg"
+            src={logo}
             alt="Logo"
             className="h-12 w-auto"
           />

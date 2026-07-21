@@ -220,7 +220,7 @@ export default function Alerts({
         );
       } else if (
         alertType === "erp" &&
-        data.type === "erp_discrepancy_alerts"
+        data.type === "pfep_erp_alerts"
       ) {
         component = (
           <>

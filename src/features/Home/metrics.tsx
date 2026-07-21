@@ -109,18 +109,18 @@ export default function Metrics({
       iconColor: "#4f8fd9",
     },
     {
-      title: "Past Due Approvals",
-      type: "PastDueApprovals",
-      value: data?.PastDueApprovals || 0,
-      icon: "pi pi-clock",
-      iconColor: "#ff6f61",
-    },
-    {
       title: "Packaging Details",
       type: "PackagingDetail",
       value: data?.PackagingDetail || 0,
       icon: "pi pi-briefcase",
       iconColor: "#ff9f58",
+    },
+    {
+      title: "Past Due Approvals",
+      type: "PastDueApprovals",
+      value: data?.PastDueApprovals || 0,
+      icon: "pi pi-clock",
+      iconColor: "#ff6f61",
     },
   ];
 
